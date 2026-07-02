@@ -132,7 +132,11 @@ pub struct SafeTensorsFile {
 }
 
 impl SafeTensorsFile {
-    // Maximum header size we are willing to allocate (256 MiB).
+    /// Maximum SafeTensors JSON header size we are willing to allocate (256 MiB).
+    ///
+    /// Guards against malformed files that declare an oversized header, which
+    /// would otherwise force a large allocation before the header can be
+    /// validated.
     const MAX_HEADER_SIZE: u64 = 256 * 1024 * 1024;
 
     /// Parse the SafeTensors header from a reader.
@@ -491,7 +495,7 @@ mod tests {
     #[test]
     fn test_header_too_large() {
         // Write a header size that exceeds the limit.
-        let huge_size: u64 = 512 * 1024 * 1024;
+        let huge_size: u64 = SafeTensorsFile::MAX_HEADER_SIZE + 1;
         let mut buf = Vec::new();
         buf.extend_from_slice(&huge_size.to_le_bytes());
         // Don't need actual data; parse should fail early.

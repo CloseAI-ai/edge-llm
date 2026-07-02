@@ -3,6 +3,17 @@ use std::io::BufReader;
 
 use edge_loader::gguf::GgufFile;
 
+/// Bits per weight for Q4-quantized memory estimates.
+const Q4_BITS: f32 = 4.0;
+/// Bits per weight for Q8-quantized memory estimates.
+const Q8_BITS: f32 = 8.0;
+/// Bits per weight/value for F16 memory estimates.
+const F16_BITS: f32 = 16.0;
+/// Short-context KV cache estimate shown by the CLI.
+const SHORT_CONTEXT_ESTIMATE_TOKENS: usize = 2048;
+/// Long-context KV cache estimate shown by the CLI.
+const LONG_CONTEXT_ESTIMATE_TOKENS: usize = 4096;
+
 fn main() {
     let args: Vec<String> = std::env::args().collect();
     if args.len() < 2 {
@@ -48,23 +59,23 @@ fn main() {
         println!("Parameters:     ~{:.1}M", params as f64 / 1e6);
         println!(
             "Weights (Q4):   ~{:.0}MB",
-            config.estimate_weight_memory(4.0) as f64 / 1e6
+            config.estimate_weight_memory(Q4_BITS) as f64 / 1e6
         );
         println!(
             "Weights (Q8):   ~{:.0}MB",
-            config.estimate_weight_memory(8.0) as f64 / 1e6
+            config.estimate_weight_memory(Q8_BITS) as f64 / 1e6
         );
         println!(
             "Weights (F16):  ~{:.0}MB",
-            config.estimate_weight_memory(16.0) as f64 / 1e6
+            config.estimate_weight_memory(F16_BITS) as f64 / 1e6
         );
         println!(
             "KV cache (2K):  ~{:.0}MB",
-            config.estimate_kv_cache_memory(2048, 16.0) as f64 / 1e6
+            config.estimate_kv_cache_memory(SHORT_CONTEXT_ESTIMATE_TOKENS, F16_BITS) as f64 / 1e6
         );
         println!(
             "KV cache (4K):  ~{:.0}MB",
-            config.estimate_kv_cache_memory(4096, 16.0) as f64 / 1e6
+            config.estimate_kv_cache_memory(LONG_CONTEXT_ESTIMATE_TOKENS, F16_BITS) as f64 / 1e6
         );
     }
 

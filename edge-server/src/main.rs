@@ -28,6 +28,13 @@ use edge_loader::weights::load_model_weights;
 
 use api::{ChatCompletionChunk, ChatCompletionRequest, ChatCompletionResponse};
 
+/// Default bind host for container-friendly server startup.
+const DEFAULT_HOST: &str = "0.0.0.0";
+/// Default OpenAI-compatible API port.
+const DEFAULT_PORT: u16 = 8080;
+/// Base seed mixed with the system clock for server sampling.
+const SERVER_RNG_BASE_SEED: u32 = 0xDEAD_BEEF;
+
 /// CLI arguments for the Edge server.
 #[derive(Parser, Debug)]
 #[command(
@@ -44,11 +51,11 @@ struct Args {
     tokenizer: Option<String>,
 
     /// Host to bind to
-    #[arg(long, default_value = "0.0.0.0")]
+    #[arg(long, default_value_t = DEFAULT_HOST.to_string())]
     host: String,
 
     /// Port to listen on
-    #[arg(long, default_value = "8080")]
+    #[arg(long, default_value_t = DEFAULT_PORT)]
     port: u16,
 }
 
@@ -328,7 +335,7 @@ fn get_eos(tokenizer: &TokenizerState) -> Option<u32> {
 
 /// Simple xorshift32 RNG.
 fn make_rng() -> impl FnMut() -> f32 {
-    let mut state: u32 = 0xDEADBEEF
+    let mut state: u32 = SERVER_RNG_BASE_SEED
         ^ (std::time::SystemTime::now()
             .duration_since(std::time::UNIX_EPOCH)
             .unwrap_or_default()

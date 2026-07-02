@@ -7,6 +7,15 @@
 
 use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
 
+/// Start inference once the embedding and first transformer layer are ready.
+const DEFAULT_MIN_LAYERS_BEFORE_START: usize = 1;
+/// Default chunk size for progressive model loading (2 MiB).
+/// Balances memory usage with HTTP range-request overhead.
+const DEFAULT_PROGRESSIVE_CHUNK_SIZE: usize = 2 * 1024 * 1024;
+/// Extra weight stages counted in the progress denominator
+/// (embedding + output projection), in addition to transformer layers.
+const PROGRESS_EXTRA_STAGES: usize = 2;
+
 /// Tracks which layers are loaded and ready for inference.
 pub struct LoadProgress {
     layers_loaded: AtomicUsize,
@@ -81,7 +90,7 @@ impl LoadProgress {
             0
         };
         let loaded = self.layers_loaded.load(Ordering::Acquire) + extra;
-        let total = self.total_layers + 2; // +2 for embedding and output
+        let total = self.total_layers + PROGRESS_EXTRA_STAGES;
         loaded as f32 / total as f32
     }
 }
@@ -104,9 +113,9 @@ pub struct ProgressiveConfig {
 impl Default for ProgressiveConfig {
     fn default() -> Self {
         Self {
-            min_layers_before_start: 1,
+            min_layers_before_start: DEFAULT_MIN_LAYERS_BEFORE_START,
             cache_weights: true,
-            chunk_size: 2 * 1024 * 1024, // 2MB
+            chunk_size: DEFAULT_PROGRESSIVE_CHUNK_SIZE,
         }
     }
 }
@@ -279,9 +288,12 @@ mod tests {
     #[test]
     fn test_progressive_config_defaults() {
         let config = ProgressiveConfig::default();
-        assert_eq!(config.min_layers_before_start, 1);
+        assert_eq!(
+            config.min_layers_before_start,
+            DEFAULT_MIN_LAYERS_BEFORE_START
+        );
         assert!(config.cache_weights);
-        assert_eq!(config.chunk_size, 2 * 1024 * 1024);
+        assert_eq!(config.chunk_size, DEFAULT_PROGRESSIVE_CHUNK_SIZE);
     }
 
     #[test]
