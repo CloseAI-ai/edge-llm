@@ -1,4 +1,4 @@
-# Multi-stage build for flare-server
+# Multi-stage build for edge-server
 #
 # Stage 1 — Build
 #   Compiles the native server binary with cargo.
@@ -6,9 +6,9 @@
 #   Minimal Debian image with only the binary and its shared-library deps.
 #
 # Usage:
-#   docker build -t flare-server .
-#   docker run -p 8080:8080 flare-server
-#   docker run -p 8080:8080 -v ./models:/models -e MODEL_FILE=/models/model.gguf flare-server
+#   docker build -t edge-server .
+#   docker run -p 8080:8080 edge-server
+#   docker run -p 8080:8080 -v ./models:/models -e MODEL_FILE=/models/model.gguf edge-server
 
 # ---------------------------------------------------------------------------
 # Stage 1: builder
@@ -25,21 +25,21 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Copy workspace files
 COPY Cargo.toml Cargo.lock ./
-COPY flare-core       flare-core/
-COPY flare-loader     flare-loader/
-COPY flare-gpu        flare-gpu/
-COPY flare-simd       flare-simd/
-COPY flare-server     flare-server/
-COPY flarellm         flarellm/
-# flare-web and flare-edge are workspace members the server binary doesn't
+COPY edge-core       edge-core/
+COPY edge-loader     edge-loader/
+COPY edge-gpu        edge-gpu/
+COPY edge-simd       edge-simd/
+COPY edge-server     edge-server/
+COPY edgellm         edgellm/
+# edge-web and edge-edge are workspace members the server binary doesn't
 # need; stub them out with minimal lib.rs files so cargo can resolve the
 # workspace without pulling in their (wasm-pack / edge-runtime) toolchains.
-COPY flare-web/Cargo.toml flare-web/Cargo.toml
-RUN mkdir -p flare-web/src && echo 'fn main() {}' > flare-web/src/lib.rs
-COPY flare-edge/Cargo.toml flare-edge/Cargo.toml
-RUN mkdir -p flare-edge/src && echo 'fn main() {}' > flare-edge/src/lib.rs
+COPY edge-web/Cargo.toml edge-web/Cargo.toml
+RUN mkdir -p edge-web/src && echo 'fn main() {}' > edge-web/src/lib.rs
+COPY edge-edge/Cargo.toml edge-edge/Cargo.toml
+RUN mkdir -p edge-edge/src && echo 'fn main() {}' > edge-edge/src/lib.rs
 
-RUN cargo build --release -p flarellm-server
+RUN cargo build --release -p edgellm-server
 
 # ---------------------------------------------------------------------------
 # Stage 2: runtime
@@ -50,7 +50,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-COPY --from=builder /build/target/release/flare-server /usr/local/bin/flare-server
+COPY --from=builder /build/target/release/edge-server /usr/local/bin/edge-server
 
 # Optional: volume mount point for model files
 VOLUME ["/models"]
@@ -65,7 +65,7 @@ EXPOSE 8080
 
 ENTRYPOINT ["/bin/sh", "-c", \
   "if [ -n \"$MODEL_FILE\" ]; then \
-     exec flare-server --model \"$MODEL_FILE\" --host \"$HOST\" --port \"$PORT\"; \
+     exec edge-server --model \"$MODEL_FILE\" --host \"$HOST\" --port \"$PORT\"; \
    else \
-     exec flare-server --host \"$HOST\" --port \"$PORT\"; \
+     exec edge-server --host \"$HOST\" --port \"$PORT\"; \
    fi"]

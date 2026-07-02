@@ -7,7 +7,7 @@
      These can also be set via HTTP response headers on the server. -->
 <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
 <meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
-<title>Flare LLM — Browser Demo</title>
+<title>Edge LLM — Browser Demo</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -150,7 +150,7 @@
 </head>
 <body>
   <header>
-    <h1>Flare LLM &mdash; Browser Demo</h1>
+    <h1>Edge LLM &mdash; Browser Demo</h1>
   </header>
 
   <div id="status-bar">
@@ -168,7 +168,7 @@
   </div>
 
 <script type="module">
-  import init, { webgpu_available, device_info } from '../../flare-web/pkg/flare_web.js';
+  import init, { webgpu_available, device_info } from '../../edge-web/pkg/edge_web.js';
 
   const statusEl  = document.getElementById('status-text');
   const messagesEl = document.getElementById('messages');
@@ -243,10 +243,10 @@
       inputEl.focus();
 
     } catch (err) {
-      console.error('Flare init failed:', err);
+      console.error('Edge LLM init failed:', err);
       setStatus(
         '<span class="err">Failed to load WASM module.</span> ' +
-        'Make sure you ran <code>wasm-pack build flare-web --target web</code> ' +
+        'Make sure you ran <code>wasm-pack build edge-web --target web</code> ' +
         'and are serving from the repo root.',
         ''
       );

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Run the Flare e2e benchmark against every GGUF model found in models/.
+# Run the Edge LLM e2e benchmark against every GGUF model found in models/.
 #
 # Usage:
 #   ./scripts/bench_multi.sh              # human-readable table
@@ -12,7 +12,7 @@
 set -euo pipefail
 
 MODEL_DIR="${MODEL_DIR:-models}"
-BENCH_BIN="cargo run -p flarellm-server --example e2e_bench --release --quiet"
+BENCH_BIN="cargo run -p edgellm-server --example e2e_bench --release --quiet"
 JSON_MODE=false
 LOG_MODE=false
 
@@ -25,7 +25,7 @@ done
 
 # Build once so the per-model runs are fast
 echo "Building e2e_bench (release)..." >&2
-cargo build -p flarellm-server --example e2e_bench --release --quiet 2>&1 | grep -v "^$" >&2 || true
+cargo build -p edgellm-server --example e2e_bench --release --quiet 2>&1 | grep -v "^$" >&2 || true
 BENCH_BIN_PATH="$(cargo metadata --format-version 1 --no-deps 2>/dev/null | \
   python3 -c "import sys,json; d=json.load(sys.stdin); print(d['target_directory'])" \
   2>/dev/null || echo "target")/release/examples/e2e_bench"
@@ -69,7 +69,7 @@ for MODEL_PATH in "${MODELS[@]}"; do
       continue
     }
   else
-    OUTPUT=$(MODEL_PATH="$MODEL_PATH" cargo run -p flarellm-server \
+    OUTPUT=$(MODEL_PATH="$MODEL_PATH" cargo run -p edgellm-server \
       --example e2e_bench --release --quiet -- $BENCH_ARGS 2>/dev/null) || {
       echo "  FAILED — skipping $MODEL_NAME" >&2
       EXIT_CODE=1

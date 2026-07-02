@@ -25,7 +25,7 @@ fi
 
 echo "Running e2e_bench (this takes ~30s)..." >&2
 
-JSON=$(MODEL_PATH="$MODEL_PATH" cargo run -p flarellm-server \
+JSON=$(MODEL_PATH="$MODEL_PATH" cargo run -p edgellm-server \
   --example e2e_bench --release --quiet -- --json 2>/dev/null)
 
 echo "$JSON"

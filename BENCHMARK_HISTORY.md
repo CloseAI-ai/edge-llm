@@ -1,6 +1,6 @@
 # Benchmark History
 
-Performance log for Flare LLM. Each entry is a snapshot at a specific commit.
+Performance log for Edge LLM. Each entry is a snapshot at a specific commit.
 Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ---
@@ -117,7 +117,7 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 | Decode (256 tok) | 23.1 |
 | Sustained (512 tok) | **20.2** |
 
-### 2026-04-13 12:34 — `46b0840 Add doc-tests for flare-core public API (closes #362) (#365)`
+### 2026-04-13 12:34 — `46b0840 Add doc-tests for edge-core public API (closes #362) (#365)`
 
 **Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
 **Model:** Llama, ~162M params, 30 layers, dim=576  
@@ -130,7 +130,7 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 | Decode (256 tok) | 117.5 |
 | Sustained (512 tok) | **111.2** |
 
-### 2026-04-13 12:34 — `46b0840 Add doc-tests for flare-core public API (closes #362) (#365)`
+### 2026-04-13 12:34 — `46b0840 Add doc-tests for edge-core public API (closes #362) (#365)`
 
 **Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
 **Model:** Llama, ~162M params, 30 layers, dim=576  
@@ -1097,7 +1097,7 @@ bandwidth-bound and has clear headroom for SIMD tuning.
 | Decode (256 tok) | 192.2 |
 | Sustained (512 tok) | **177.6** |
 
-### 2026-04-15 18:30 — `d409693 Release flare-web 0.1.1 on npm (#462)`
+### 2026-04-15 18:30 — `d409693 Release edge-web 0.1.1 on npm (#462)`
 
 **Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
 **Model:** Llama, ~162M params, 30 layers, dim=576  
@@ -1110,7 +1110,7 @@ bandwidth-bound and has clear headroom for SIMD tuning.
 | Decode (256 tok) | 198.9 |
 | Sustained (512 tok) | **174.9** |
 
-### 2026-04-15 18:31 — `d409693 Release flare-web 0.1.1 on npm (#462)`
+### 2026-04-15 18:31 — `d409693 Release edge-web 0.1.1 on npm (#462)`
 
 **Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
 **Model:** Llama, ~1498M params, 16 layers, dim=2048  

@@ -1,4 +1,4 @@
-# Contributing to Flare LLM
+# Contributing to Edge LLM
 
 Thanks for your interest in contributing! This document describes how to set up
 the project, run tests, and submit changes.
@@ -6,8 +6,8 @@ the project, run tests, and submit changes.
 ## Development setup
 
 ```bash
-git clone https://github.com/sauravpanda/flarellm
-cd flarellm
+git clone https://github.com/sauravpanda/edgellm
+cd edgellm
 
 # Build everything
 cargo build --release
@@ -29,53 +29,53 @@ cargo fmt --all
 curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
 # Build the browser bindings
-wasm-pack build flare-web --target web
+wasm-pack build edge-web --target web
 ```
 
 ### Running the demo
 
 ```bash
-wasm-pack build flare-web --target web
-cd flare-web && python3 -m http.server 8000
+wasm-pack build edge-web --target web
+cd edge-web && python3 -m http.server 8000
 # Open http://localhost:8000/demo/
 ```
 
 ## Workspace layout
 
-- `flare-core/` — tensor, model, sampling, generation (`flarellm-core` on crates.io)
-- `flare-loader/` — GGUF / SafeTensors loading (`flarellm-loader`)
-- `flare-gpu/` — WebGPU compute backend (`flarellm-gpu`)
-- `flare-simd/` — WASM SIMD128 backend (`flarellm-simd`)
-- `flare-web/` — browser bindings (`flarellm-web`)
-- `flare-server/` — native server + CLI (`flarellm-server`)
-- `flarellm/` — umbrella crate that re-exports the others
+- `edge-core/` — tensor, model, sampling, generation (`edgellm-core` on crates.io)
+- `edge-loader/` — GGUF / SafeTensors loading (`edgellm-loader`)
+- `edge-gpu/` — WebGPU compute backend (`edgellm-gpu`)
+- `edge-simd/` — WASM SIMD128 backend (`edgellm-simd`)
+- `edge-web/` — browser bindings (`edgellm-web`)
+- `edge-server/` — native server + CLI (`edgellm-server`)
+- `edgellm/` — umbrella crate that re-exports the others
 
-Note: directory names use the legacy `flare-*` prefix; package names use
-`flarellm-*` because `flare-core` is taken on crates.io.
+Note: directory names use the legacy `edge-*` prefix; package names use
+`edgellm-*` because `edge-core` is taken on crates.io.
 
 ## Running benchmarks
 
 ```bash
 # Microbenchmarks (matmul, sampling)
-cargo bench -p flarellm-simd
+cargo bench -p edgellm-simd
 
 # CPU matvec benchmark
-cargo run -p flarellm-core --example matvec_bench --release
+cargo run -p edgellm-core --example matvec_bench --release
 
 # GPU vs CPU benchmark
-cargo run -p flarellm-gpu --example gpu_bench --release
+cargo run -p edgellm-gpu --example gpu_bench --release
 
 # End-to-end (requires a GGUF file at models/smollm2-135m-instruct-q8_0.gguf)
-cargo run -p flarellm-server --example e2e_bench --release
+cargo run -p edgellm-server --example e2e_bench --release
 
 # Append a new entry to BENCHMARK_HISTORY.md
-cargo run -p flarellm-server --example e2e_bench --release -- --log
+cargo run -p edgellm-server --example e2e_bench --release -- --log
 ```
 
 ## Performance regression policy
 
 If you make a change that affects inference speed, please:
-1. Run `cargo run -p flarellm-server --example e2e_bench --release -- --log`
+1. Run `cargo run -p edgellm-server --example e2e_bench --release -- --log`
 2. Include the new entry in your PR (commit `BENCHMARK_HISTORY.md`)
 3. If the change is a regression, explain why it's worth it
 

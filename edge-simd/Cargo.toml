@@ -1,0 +1,28 @@
+[package]
+name = "edgellm-simd"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "WASM SIMD128 CPU fallback backend for Edge LLM inference"
+keywords = ["wasm", "simd", "llm", "cpu"]
+categories = ["wasm", "science"]
+readme = "../README.md"
+
+[lib]
+name = "edge_simd"
+
+[[bench]]
+name = "matmul_bench"
+harness = false
+
+[features]
+default = []
+# Forward relaxed SIMD feature to edge-core for WASM relaxed SIMD matvec.
+relaxed_simd = ["edge-core/relaxed_simd"]
+
+[dependencies]
+edge-core = { package = "edgellm-core", path = "../edge-core", version = "0.1.0" }
+thiserror = { workspace = true }
+log = { workspace = true }

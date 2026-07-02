@@ -1,0 +1,22 @@
+[package]
+name = "edgellm"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.80"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/sauravpanda/edgellm"
+description = "A WASM-first LLM inference engine with WebGPU acceleration"
+keywords = ["llm", "wasm", "webgpu", "inference", "ai"]
+categories = ["wasm", "science"]
+readme = "../README.md"
+
+[features]
+default = ["loader"]
+loader = ["dep:edgellm-loader"]
+gpu = ["dep:edgellm-gpu"]
+all = ["loader", "gpu"]
+
+[dependencies]
+edgellm-core = { path = "../edge-core", version = "0.1.0" }
+edgellm-loader = { path = "../edge-loader", version = "0.1.0", optional = true }
+edgellm-gpu = { path = "../edge-gpu", version = "0.1.0", optional = true }

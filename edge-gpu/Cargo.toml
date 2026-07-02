@@ -1,0 +1,33 @@
+[package]
+name = "edgellm-gpu"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "WebGPU/wgpu compute backend for Edge LLM inference"
+keywords = ["webgpu", "wgpu", "llm", "gpu", "compute"]
+categories = ["graphics", "science"]
+readme = "../README.md"
+
+[lib]
+name = "edge_gpu"
+
+[dependencies]
+edge-core = { package = "edgellm-core", path = "../edge-core", version = "0.1.0" }
+wgpu = { workspace = true }
+thiserror = { workspace = true }
+log = { workspace = true }
+byteorder = { workspace = true }
+bytemuck = { workspace = true }
+half = { workspace = true }
+pollster = "0.4"
+futures-channel = "0.3"
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+web-sys = { workspace = true, features = ["console"] }
+wasm-bindgen-futures = "0.4"
+
+[dev-dependencies]
+pollster = "0.4"
+edge-loader = { package = "edgellm-loader", path = "../edge-loader", version = "0.1.0" }

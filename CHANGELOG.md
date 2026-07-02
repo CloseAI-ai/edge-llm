@@ -8,11 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- `@aspect/flare` npm package: automated publishing workflow triggered on GitHub releases; `npm pack --dry-run` validation added to WASM CI job (#52)
-- `FlareProgressiveLoader` WASM export: fetch a GGUF model from a URL with streaming byte-level download progress (#50)
-- `load_model_weights_with_progress` in `flare-loader` for layer-by-layer parse callbacks (#50)
+- `@aspect/edge-llm` npm package: automated publishing workflow triggered on GitHub releases; `npm pack --dry-run` validation added to WASM CI job (#52)
+- `EdgeProgressiveLoader` WASM export: fetch a GGUF model from a URL with streaming byte-level download progress (#50)
+- `load_model_weights_with_progress` in `edge-loader` for layer-by-layer parse callbacks (#50)
 - Browser demo tabbed UI with URL-based progressive loading and live progress bar (#50)
-- Browser quickstart section in README with `@aspect/flare` npm install example (#52)
+- Browser quickstart section in README with `@aspect/edge-llm` npm install example (#52)
 - ARM NEON SIMD matvec with 4-way accumulator unrolling (#59)
 - x86_64 AVX2+FMA SIMD matvec with runtime feature detection (#74)
 - Rayon parallelism for matvec on large matrices (5M+ FMAs threshold) (#72)
@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API server with real model loading and inference (#53, #61)
 - Benchmark history log via `e2e_bench --log` (#65)
 - `simple_chat` example for the umbrella crate (#78)
-- Re-exports and feature flags for the `flarellm` umbrella crate (#73)
+- Re-exports and feature flags for the `edgellm` umbrella crate (#73)
 - NEON SIMD RMSNorm (#76)
 - RoPE cos/sin table caching (#77)
 - Optimized top_k/top_p sampling with partition selection — 5x faster (#75)
@@ -31,8 +31,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Q4_K_M, Q6_K, Q5_K dequantization support (#12, #45, #60)
 
 ### Changed
-- Renamed workspace crates to `flarellm-*` namespace for crates.io (#66)
-- Bumped `flarellm` umbrella crate to 0.1.0
+- Renamed workspace crates to `edgellm-*` namespace for crates.io (#66)
+- Bumped `edgellm` umbrella crate to 0.1.0
 - `Model` now uses `Box<dyn ComputeBackend>` for pluggable CPU/GPU compute (#58)
 - `ComputeBackend: Send + Sync` so models can be shared across threads (#61)
 

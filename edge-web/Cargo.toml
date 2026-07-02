@@ -1,0 +1,73 @@
+[package]
+name = "edgellm-web"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Browser integration for Edge LLM inference (WASM, Web Workers, Cache API)"
+keywords = ["wasm", "browser", "llm", "webgpu"]
+categories = ["wasm", "web-programming"]
+readme = "../README.md"
+
+[lib]
+name = "edge_web"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+edge-core = { package = "edgellm-core", path = "../edge-core", version = "0.1.0" }
+edge-loader = { package = "edgellm-loader", path = "../edge-loader", version = "0.1.0" }
+edge-gpu = { package = "edgellm-gpu", path = "../edge-gpu", version = "0.1.0" }
+edge-simd = { package = "edgellm-simd", path = "../edge-simd", version = "0.1.0" }
+wasm-bindgen = { workspace = true }
+web-sys = { workspace = true, features = [
+    "console",
+    "Navigator",
+    "Window",
+    "Worker",
+    "WorkerGlobalScope",
+    "DedicatedWorkerGlobalScope",
+    "WorkerNavigator",
+    "Request",
+    "Response",
+    "Cache",
+    "CacheStorage",
+    "Headers",
+    "Performance",
+    "ReadableStream",
+    "ReadableStreamDefaultReader",
+    "Gpu",
+    "GpuAdapter",
+    "GpuDevice",
+    "Blob",
+    "File",
+    "StorageManager",
+    "FileSystemDirectoryHandle",
+    "FileSystemFileHandle",
+    "FileSystemGetFileOptions",
+    "FileSystemGetDirectoryOptions",
+    "FileSystemWritableFileStream",
+    "WritableStream",
+    "StorageEstimate",
+] }
+js-sys = { workspace = true }
+wasm-bindgen-futures = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+log = { workspace = true }
+thiserror = { workspace = true }
+console_error_panic_hook = "0.1"
+wasm-bindgen-rayon = { version = "1.2", optional = true }
+
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = false
+
+[features]
+default = []
+# Enable multi-threaded WASM inference via SharedArrayBuffer.
+# Requires COOP/COEP headers. Build: wasm-pack build edge-web --target web --features wasm_threads
+wasm_threads = ["wasm-bindgen-rayon", "edge-core/wasm_threads"]
+# Enable WASM relaxed SIMD (f32x4_relaxed_madd, hardware FMA) for faster matvec.
+# Requires browser support for the relaxed-simd WASM proposal.
+# Build: wasm-pack build edge-web --target web --features relaxed_simd
+relaxed_simd = ["edge-core/relaxed_simd", "edge-simd/relaxed_simd"]

@@ -1,4 +1,4 @@
-# Flare Benchmarks
+# Edge LLM Benchmarks
 
 **Date:** 2026-04-10
 **Hardware:** Apple M5 Pro (ARM64)
@@ -43,7 +43,7 @@ GPU backend currently allocates buffers per-call, so dispatch overhead dominates
 
 > **Note:** GPU is slower due to ~2ms fixed overhead per dispatch (buffer create + upload + readback). With persistent buffers and batched dispatch, GPU should be 5-10x faster than CPU for large matrices.
 
-## Full MatMul (flare-simd tiled)
+## Full MatMul (edge-simd tiled)
 
 Batch matrix multiply using tiled loop with TILE=32 for cache locality.
 
@@ -99,13 +99,13 @@ Real measurements using `e2e_bench` with SmolLM2-135M-Instruct Q8_0 (138MB, 30 l
 ./scripts/download_baseline_model.sh
 
 # Run e2e benchmark (human-readable)
-cargo run -p flarellm-server --example e2e_bench --release
+cargo run -p edgellm-server --example e2e_bench --release
 
 # Append result to BENCHMARK_HISTORY.md
-cargo run -p flarellm-server --example e2e_bench --release -- --log
+cargo run -p edgellm-server --example e2e_bench --release -- --log
 
 # Machine-readable JSON output
-cargo run -p flarellm-server --example e2e_bench --release -- --json
+cargo run -p edgellm-server --example e2e_bench --release -- --json
 ```
 
 ### Multi-model benchmark
@@ -150,11 +150,11 @@ GitHub → Actions → Benchmark → Run workflow
 
 ```bash
 # CPU matvec benchmark
-cargo run -p flarellm-core --example matvec_bench --release
+cargo run -p edgellm-core --example matvec_bench --release
 
 # GPU vs CPU comparison
-cargo run -p flarellm-gpu --example gpu_bench --release
+cargo run -p edgellm-gpu --example gpu_bench --release
 
 # Full matmul + sampling benchmarks
-cargo bench -p flarellm-simd
+cargo bench -p edgellm-simd
 ```

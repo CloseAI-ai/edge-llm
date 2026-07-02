@@ -1,0 +1,22 @@
+[package]
+name = "edgellm-edge"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Serverless LLM inference for edge runtimes (Cloudflare Workers, Fermyon Spin, Deno)"
+keywords = ["llm", "edge", "serverless", "wasm", "inference"]
+categories = ["web-programming", "science"]
+readme = "../README.md"
+
+[lib]
+name = "edge_edge"
+
+[dependencies]
+edge-core = { package = "edgellm-core", path = "../edge-core", version = "0.1.0" }
+edge-loader = { package = "edgellm-loader", path = "../edge-loader", version = "0.1.0" }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+log = { workspace = true }

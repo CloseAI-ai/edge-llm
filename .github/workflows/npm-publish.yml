@@ -12,7 +12,7 @@ on:
 
 jobs:
   publish:
-    name: Build WASM and publish @sauravpanda/flare
+    name: Build WASM and publish @sauravpanda/edge-llm
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -33,7 +33,7 @@ jobs:
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Build WASM package
-        run: wasm-pack build flare-web --target web --out-dir pkg --release
+        run: wasm-pack build edge-web --target web --out-dir pkg --release
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -42,12 +42,12 @@ jobs:
           registry-url: "https://registry.npmjs.org"
 
       - name: Pack (dry run inspection)
-        working-directory: flare-web
+        working-directory: edge-web
         run: npm pack --dry-run
 
       - name: Publish to npm
         if: ${{ github.event_name == 'release' || (github.event_name == 'workflow_dispatch' && !inputs.dry_run) }}
-        working-directory: flare-web
+        working-directory: edge-web
         run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

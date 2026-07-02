@@ -375,6 +375,121 @@ dependencies = [
 ]
 
 [[package]]
+name = "edgellm"
+version = "0.1.0"
+dependencies = [
+ "edgellm-core",
+ "edgellm-gpu",
+ "edgellm-loader",
+]
+
+[[package]]
+name = "edgellm-core"
+version = "0.1.0"
+dependencies = [
+ "byteorder",
+ "log",
+ "rayon",
+ "serde",
+ "serde_json",
+ "thiserror 2.0.18",
+]
+
+[[package]]
+name = "edgellm-edge"
+version = "0.1.0"
+dependencies = [
+ "edgellm-core",
+ "edgellm-loader",
+ "log",
+ "serde",
+ "serde_json",
+ "thiserror 2.0.18",
+]
+
+[[package]]
+name = "edgellm-gpu"
+version = "0.1.0"
+dependencies = [
+ "bytemuck",
+ "byteorder",
+ "edgellm-core",
+ "edgellm-loader",
+ "futures-channel",
+ "half",
+ "log",
+ "pollster",
+ "thiserror 2.0.18",
+ "wasm-bindgen-futures",
+ "web-sys",
+ "wgpu",
+]
+
+[[package]]
+name = "edgellm-loader"
+version = "0.1.0"
+dependencies = [
+ "byteorder",
+ "edgellm-core",
+ "log",
+ "proptest",
+ "serde",
+ "serde_json",
+ "thiserror 2.0.18",
+]
+
+[[package]]
+name = "edgellm-server"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "clap",
+ "edgellm-core",
+ "edgellm-gpu",
+ "edgellm-loader",
+ "futures",
+ "http-body-util",
+ "log",
+ "pollster",
+ "serde",
+ "serde_json",
+ "thiserror 2.0.18",
+ "tokio",
+ "tokio-stream",
+ "tower",
+ "tower-http",
+]
+
+[[package]]
+name = "edgellm-simd"
+version = "0.1.0"
+dependencies = [
+ "edgellm-core",
+ "log",
+ "thiserror 2.0.18",
+]
+
+[[package]]
+name = "edgellm-web"
+version = "0.1.0"
+dependencies = [
+ "console_error_panic_hook",
+ "edgellm-core",
+ "edgellm-gpu",
+ "edgellm-loader",
+ "edgellm-simd",
+ "js-sys",
+ "log",
+ "serde",
+ "serde_json",
+ "thiserror 2.0.18",
+ "wasm-bindgen",
+ "wasm-bindgen-futures",
+ "wasm-bindgen-rayon",
+ "web-sys",
+]
+
+[[package]]
 name = "either"
 version = "1.15.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -401,121 +516,6 @@ name = "fastrand"
 version = "2.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9f1f227452a390804cdb637b74a86990f2a7d7ba4b7d5693aac9b4dd6defd8d6"
-
-[[package]]
-name = "flarellm"
-version = "0.1.0"
-dependencies = [
- "flarellm-core",
- "flarellm-gpu",
- "flarellm-loader",
-]
-
-[[package]]
-name = "flarellm-core"
-version = "0.1.0"
-dependencies = [
- "byteorder",
- "log",
- "rayon",
- "serde",
- "serde_json",
- "thiserror 2.0.18",
-]
-
-[[package]]
-name = "flarellm-edge"
-version = "0.1.0"
-dependencies = [
- "flarellm-core",
- "flarellm-loader",
- "log",
- "serde",
- "serde_json",
- "thiserror 2.0.18",
-]
-
-[[package]]
-name = "flarellm-gpu"
-version = "0.1.0"
-dependencies = [
- "bytemuck",
- "byteorder",
- "flarellm-core",
- "flarellm-loader",
- "futures-channel",
- "half",
- "log",
- "pollster",
- "thiserror 2.0.18",
- "wasm-bindgen-futures",
- "web-sys",
- "wgpu",
-]
-
-[[package]]
-name = "flarellm-loader"
-version = "0.1.0"
-dependencies = [
- "byteorder",
- "flarellm-core",
- "log",
- "proptest",
- "serde",
- "serde_json",
- "thiserror 2.0.18",
-]
-
-[[package]]
-name = "flarellm-server"
-version = "0.1.0"
-dependencies = [
- "axum",
- "clap",
- "flarellm-core",
- "flarellm-gpu",
- "flarellm-loader",
- "futures",
- "http-body-util",
- "log",
- "pollster",
- "serde",
- "serde_json",
- "thiserror 2.0.18",
- "tokio",
- "tokio-stream",
- "tower",
- "tower-http",
-]
-
-[[package]]
-name = "flarellm-simd"
-version = "0.1.0"
-dependencies = [
- "flarellm-core",
- "log",
- "thiserror 2.0.18",
-]
-
-[[package]]
-name = "flarellm-web"
-version = "0.1.0"
-dependencies = [
- "console_error_panic_hook",
- "flarellm-core",
- "flarellm-gpu",
- "flarellm-loader",
- "flarellm-simd",
- "js-sys",
- "log",
- "serde",
- "serde_json",
- "thiserror 2.0.18",
- "wasm-bindgen",
- "wasm-bindgen-futures",
- "wasm-bindgen-rayon",
- "web-sys",
-]
 
 [[package]]
 name = "fnv"

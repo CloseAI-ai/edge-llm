@@ -1,30 +1,30 @@
-# Flare LLM
+# Edge LLM
 
-[![CI](https://github.com/sauravpanda/flarellm/actions/workflows/ci.yml/badge.svg)](https://github.com/sauravpanda/flarellm/actions/workflows/ci.yml)
+[![CI](https://github.com/sauravpanda/edgellm/actions/workflows/ci.yml/badge.svg)](https://github.com/sauravpanda/edgellm/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](LICENSE)
 [![Rust](https://img.shields.io/badge/rust-stable-orange.svg)](https://www.rust-lang.org)
-[![npm](https://img.shields.io/npm/v/@sauravpanda/flare.svg)](https://www.npmjs.com/package/@sauravpanda/flare)
+[![npm](https://img.shields.io/npm/v/@sauravpanda/edge-llm.svg)](https://www.npmjs.com/package/@sauravpanda/edge-llm)
 
 A WASM-first LLM inference engine with WebGPU acceleration, built in pure Rust.
 
 Run large language models directly in the browser with zero server costs. Single codebase compiles to both native and WebAssembly — same WGSL shaders, same quantization kernels, same inference pipeline.
 
-**[→ Try the live browser demo](https://sauravpanda.github.io/flarellm/)** · **[npm: @sauravpanda/flare](https://www.npmjs.com/package/@sauravpanda/flare)**
+**[→ Try the live browser demo](https://sauravpanda.github.io/edgellm/)** · **[npm: @sauravpanda/edge-llm](https://www.npmjs.com/package/@sauravpanda/edge-llm)**
 
 ## Performance
 
 Benchmarked on Apple M5 Pro, April 2026:
 
-| Model | Flare (native) | llama.cpp | Gap | Browser (est.) |
+| Model | Edge LLM (native) | llama.cpp | Gap | Browser (est.) |
 |---|---|---|---|---|
 | SmolLM2-135M Q8_0 | **224 tok/s** | 390 tok/s | 1.7x | ~80 tok/s |
 | Llama 3.2 1B Q8_0 | **38 tok/s** | 124 tok/s | 3.2x | ~15 tok/s |
 
 See [`BENCHMARK_HISTORY.md`](BENCHMARK_HISTORY.md) for the full performance log.
 
-## Why Flare?
+## Why Edge LLM?
 
-|  | Flare | llama.cpp | WebLLM | Transformers.js |
+|  | Edge LLM | llama.cpp | WebLLM | Transformers.js |
 |---|---|---|---|---|
 | Browser inference | **Yes** | No | Yes | Yes |
 | Native inference | **Yes** | Yes | No | Via Node |
@@ -85,8 +85,8 @@ See [`BENCHMARK_HISTORY.md`](BENCHMARK_HISTORY.md) for the full performance log.
 
 ```bash
 # Clone and build
-git clone https://github.com/sauravpanda/flarellm
-cd flarellm
+git clone https://github.com/sauravpanda/edgellm
+cd edgellm
 cargo build --release
 
 # Download a small model
@@ -105,11 +105,11 @@ cargo run --release --example e2e_bench -- --speculative
 ### Rust API
 
 ```rust
-use flare_core::generate::Generator;
-use flare_core::model::Model;
-use flare_core::sampling::SamplingParams;
-use flare_loader::gguf::GgufFile;
-use flare_loader::weights::load_model_weights;
+use edge_core::generate::Generator;
+use edge_core::model::Model;
+use edge_core::sampling::SamplingParams;
+use edge_loader::gguf::GgufFile;
+use edge_loader::weights::load_model_weights;
 use std::io::BufReader;
 use std::fs::File;
 
@@ -137,18 +137,18 @@ let tokens = gen.generate(
 
 ```bash
 # Build WASM
-wasm-pack build flare-web --target web
+wasm-pack build edge-web --target web
 
 # Open the demo
-open flare-web/demo/index.html
+open edge-web/demo/index.html
 ```
 
 ```javascript
-import init, { FlareEngine } from '@sauravpanda/flare';
+import init, { EdgeEngine } from '@sauravpanda/edge-llm';
 
 await init();
 const buffer = await fetch('model.gguf').then(r => r.arrayBuffer());
-const engine = FlareEngine.load(new Uint8Array(buffer));
+const engine = EdgeEngine.load(new Uint8Array(buffer));
 
 // Initialize WebGPU (falls back to CPU SIMD if unavailable)
 await engine.init_gpu();
@@ -164,7 +164,7 @@ while (!engine.stream_done()) {
 ### P2P collaborative inference primitives
 
 For experiments in splitting inference across multiple peers (e.g. a
-WebRTC mesh), `FlareEngine` exposes the "head" and "tail" of a forward
+WebRTC mesh), `EdgeEngine` exposes the "head" and "tail" of a forward
 pass. A coordinator peer can embed a token, hand the hidden state off
 through a chain of peers running some subset of transformer layers, and
 then run the final RMSNorm + output projection locally to recover
@@ -175,7 +175,7 @@ logits:
 const hidden = engine.embed_token(tokenId); // Float32Array, hidden_dim
 
 // ... ship `hidden` through the peer mesh; each peer runs some layers
-// on its local `FlareEngine` and forwards the updated hidden state ...
+// on its local `EdgeEngine` and forwards the updated hidden state ...
 
 // Coordinator peer: project the final hidden state to logits.
 const logits = engine.output_projection(finalHidden); // Float32Array, vocab_size
@@ -188,12 +188,12 @@ surface needed to start P2P experimentation ([#389](../../issues/389)).
 ## Architecture
 
 ```
-flare-core        Core inference (tensor, model, KV cache, sampling, tokenizer)
-flare-loader      Model loading (GGUF, SafeTensors, quantization, progressive)
-flare-gpu         WebGPU/wgpu compute backend + 37 WGSL shaders
-flare-simd        WASM SIMD128 CPU fallback
-flare-web         Browser integration (wasm-bindgen, WebGPU, Cache API)
-flare-server      Native server with OpenAI-compatible API
+edge-core        Core inference (tensor, model, KV cache, sampling, tokenizer)
+edge-loader      Model loading (GGUF, SafeTensors, quantization, progressive)
+edge-gpu         WebGPU/wgpu compute backend + 37 WGSL shaders
+edge-simd        WASM SIMD128 CPU fallback
+edge-web         Browser integration (wasm-bindgen, WebGPU, Cache API)
+edge-server      Native server with OpenAI-compatible API
 ```
 
 ### Compute Path Selection
@@ -270,10 +270,10 @@ cargo test --workspace
 cargo clippy --workspace --all-targets -- -D warnings
 
 # WASM build
-wasm-pack build flare-web --target web
+wasm-pack build edge-web --target web
 
 # WASM with multi-threading support
-wasm-pack build flare-web --target web --features wasm_threads
+wasm-pack build edge-web --target web --features wasm_threads
 
 # Profile-guided optimization (PGO) build — squeezes ~5-10% on top of LTO.
 # Requires `rustup component add llvm-tools-preview`.

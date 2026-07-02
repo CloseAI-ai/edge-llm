@@ -1,6 +1,6 @@
 # Browser Chat Demo
 
-A minimal single-file chat UI that validates the Flare WASM integration and
+A minimal single-file chat UI that validates the Edge LLM WASM integration and
 WebGPU detection in the browser. Model inference is not yet wired up — the demo
 shows that the WASM module loads, `init()` succeeds, and `webgpu_available()`
 reports correctly.
@@ -10,7 +10,7 @@ reports correctly.
 1. **Build the WASM package** (from the repo root):
 
    ```bash
-   wasm-pack build flare-web --target web
+   wasm-pack build edge-web --target web
    ```
 
 2. **Serve the repo** (a local HTTP server is required for ES module imports):
@@ -27,7 +27,7 @@ reports correctly.
 
 ## What It Does
 
-- Loads the Flare WASM module (`flare_web.js`).
+- Loads the Edge LLM WASM module (`edge_web.js`).
 - Calls `init()` to initialize the engine.
 - Calls `webgpu_available()` and `device_info()` and displays the results in a
   status bar.

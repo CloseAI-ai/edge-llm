@@ -1,6 +1,6 @@
 name: Deploy demo to GitHub Pages
 
-# Builds the flare-web WASM bundle and publishes the demo page to
+# Builds the edge-web WASM bundle and publishes the demo page to
 # GitHub Pages on every push to main (or on manual dispatch).
 #
 # The deployed site lives at https://<owner>.github.io/<repo>/ with the
@@ -10,11 +10,11 @@ on:
   push:
     branches: [main]
     paths:
-      - 'flare-core/**'
-      - 'flare-loader/**'
-      - 'flare-simd/**'
-      - 'flare-gpu/**'
-      - 'flare-web/**'
+      - 'edge-core/**'
+      - 'edge-loader/**'
+      - 'edge-simd/**'
+      - 'edge-gpu/**'
+      - 'edge-web/**'
       - '.github/workflows/deploy-pages.yml'
   workflow_dispatch:
 
@@ -42,22 +42,22 @@ jobs:
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
-      - name: Build flare-web (release, target web)
-        run: wasm-pack build flare-web --target web --out-dir pkg --release
+      - name: Build edge-web (release, target web)
+        run: wasm-pack build edge-web --target web --out-dir pkg --release
 
       - name: Assemble _site
         run: |
           mkdir -p _site/pkg
           # Copy demo HTML to site root, rewriting the relative import path
           # so the demo at / can find the WASM module at /pkg/.
-          sed 's|../pkg/flare_web.js|./pkg/flare_web.js|g' \
-            flare-web/demo/index.html > _site/index.html
+          sed 's|../pkg/edge_web.js|./pkg/edge_web.js|g' \
+            edge-web/demo/index.html > _site/index.html
           # Copy the built WASM package.
-          cp flare-web/pkg/flare_web.js        _site/pkg/
-          cp flare-web/pkg/flare_web.d.ts      _site/pkg/
-          cp flare-web/pkg/flare_web_bg.wasm   _site/pkg/
-          cp flare-web/pkg/flare_web_bg.wasm.d.ts _site/pkg/
-          cp flare-web/pkg/package.json        _site/pkg/
+          cp edge-web/pkg/edge_web.js        _site/pkg/
+          cp edge-web/pkg/edge_web.d.ts      _site/pkg/
+          cp edge-web/pkg/edge_web_bg.wasm   _site/pkg/
+          cp edge-web/pkg/edge_web_bg.wasm.d.ts _site/pkg/
+          cp edge-web/pkg/package.json        _site/pkg/
           # Minimal 404 so deep links don't render the GitHub Pages 404 theme.
           cp _site/index.html _site/404.html
 

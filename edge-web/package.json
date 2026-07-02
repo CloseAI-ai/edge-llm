@@ -1,0 +1,59 @@
+{
+  "name": "@sauravpanda/edge-llm",
+  "version": "0.2.21",
+  "description": "WASM-first LLM inference engine with WebGPU acceleration — run LLMs in the browser with zero server costs",
+  "type": "module",
+  "main": "pkg/edge_web.js",
+  "module": "pkg/edge_web.js",
+  "types": "pkg/edge_web.d.ts",
+  "files": [
+    "pkg/edge_web_bg.wasm",
+    "pkg/edge_web_bg.wasm.d.ts",
+    "pkg/edge_web.js",
+    "pkg/edge_web.d.ts",
+    "pkg/package.json",
+    "js/",
+    "demo/",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "wasm-pack build --target web --out-dir pkg",
+    "build:node": "wasm-pack build --target nodejs --out-dir pkg-node",
+    "build:bundler": "wasm-pack build --target bundler --out-dir pkg-bundler",
+    "prepublishOnly": "npm run build"
+  },
+  "exports": {
+    ".": {
+      "import": "./pkg/edge_web.js",
+      "types": "./pkg/edge_web.d.ts"
+    }
+  },
+  "keywords": [
+    "llm",
+    "wasm",
+    "webgpu",
+    "inference",
+    "ai",
+    "rust",
+    "browser",
+    "gguf",
+    "transformer"
+  ],
+  "license": "MIT OR Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sauravpanda/edgellm.git",
+    "directory": "edge-web"
+  },
+  "bugs": {
+    "url": "https://github.com/sauravpanda/edgellm/issues"
+  },
+  "homepage": "https://github.com/sauravpanda/edgellm#readme",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

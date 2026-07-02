@@ -4,22 +4,23 @@ codegen-units = 1
 
 [workspace]
 members = [
-    "flarellm",
-    "flare-core",
-    "flare-loader",
-    "flare-gpu",
-    "flare-simd",
-    "flare-web",
-    "flare-server",
-    "flare-edge",
+    "edgellm",
+    "edge-core",
+    "edge-loader",
+    "edge-gpu",
+    "edge-simd",
+    "edge-web",
+    "edge-server",
+    "edge-edge",
 ]
 resolver = "2"
 
 [workspace.package]
 version = "0.1.0"
 edition = "2021"
+rust-version = "1.80"
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/sauravpanda/flarellm"
+repository = "https://github.com/sauravpanda/edgellm"
 description = "A WASM-first LLM inference engine with WebGPU acceleration"
 
 [workspace.dependencies]

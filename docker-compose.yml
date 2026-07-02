@@ -1,5 +1,5 @@
 services:
-  flare-server:
+  edge-server:
     build: .
     ports:
       - "8080:8080"
@@ -7,7 +7,7 @@ services:
       - ./models:/models:ro
     environment:
       - MODEL_FILE=${MODEL_FILE:-}
-      - MODEL_NAME=${MODEL_NAME:-flare-local}
+      - MODEL_NAME=${MODEL_NAME:-edge-local}
       - HOST=0.0.0.0
       - PORT=8080
     restart: unless-stopped

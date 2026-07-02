@@ -12,10 +12,10 @@ name: Benchmark (PR)
 on:
   pull_request:
     paths:
-      - 'flare-core/**'
-      - 'flare-loader/**'
-      - 'flare-simd/**'
-      - 'flare-server/examples/e2e_bench.rs'
+      - 'edge-core/**'
+      - 'edge-loader/**'
+      - 'edge-simd/**'
+      - 'edge-server/examples/e2e_bench.rs'
       - 'benchmarks/**'
       - '.github/workflows/benchmark-pr.yml'
       - '.github/scripts/check_perf_regression.py'
@@ -55,12 +55,12 @@ jobs:
         run: bash scripts/download_baseline_model.sh
 
       - name: Build benchmark
-        run: cargo build --release -p flarellm-server --example e2e_bench
+        run: cargo build --release -p edgellm-server --example e2e_bench
 
       - name: Run benchmark
         id: bench
         run: |
-          cargo run --release -p flarellm-server --example e2e_bench -- --json > bench-result.json
+          cargo run --release -p edgellm-server --example e2e_bench -- --json > bench-result.json
           echo "--- bench-result.json ---"
           cat bench-result.json
 
@@ -135,7 +135,7 @@ jobs:
               `<sub>Workflow: \`benchmark-pr.yml\` — commit ${context.sha.substring(0, 7)}</sub>`,
             ].join('\n');
 
-            const marker = '<!-- flare-benchmark-pr-comment -->';
+            const marker = '<!-- edge-benchmark-pr-comment -->';
             const fullBody = `${marker}\n${body}`;
 
             const { owner, repo } = context.repo;

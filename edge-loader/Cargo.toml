@@ -1,0 +1,25 @@
+[package]
+name = "edgellm-loader"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Model weight loading for Edge LLM (GGUF, SafeTensors, progressive streaming)"
+keywords = ["gguf", "llm", "safetensors", "loader"]
+categories = ["parser-implementations", "science"]
+readme = "../README.md"
+
+[lib]
+name = "edge_loader"
+
+[dependencies]
+edge-core = { package = "edgellm-core", path = "../edge-core", version = "0.1.0" }
+thiserror = { workspace = true }
+byteorder = { workspace = true }
+log = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+[dev-dependencies]
+proptest = "1"
