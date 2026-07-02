@@ -1,6 +1,6 @@
 [package]
 name = "edgellm"
-version = "0.1.0"
+version = "0.2.21"
 edition = "2021"
 rust-version = "1.80"
 license = "MIT OR Apache-2.0"
@@ -17,6 +17,6 @@ gpu = ["dep:edgellm-gpu"]
 all = ["loader", "gpu"]
 
 [dependencies]
-edgellm-core = { path = "../edge-core", version = "0.1.0" }
-edgellm-loader = { path = "../edge-loader", version = "0.1.0", optional = true }
-edgellm-gpu = { path = "../edge-gpu", version = "0.1.0", optional = true }
+edgellm-core = { path = "../edge-core", version = "0.2.21" }
+edgellm-loader = { path = "../edge-loader", version = "0.2.21", optional = true }
+edgellm-gpu = { path = "../edge-gpu", version = "0.2.21", optional = true }

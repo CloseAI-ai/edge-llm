@@ -23,9 +23,9 @@ name = "edge-info"
 path = "src/info.rs"
 
 [dependencies]
-edge-core = { package = "edgellm-core", path = "../edge-core", version = "0.1.0" }
-edge-loader = { package = "edgellm-loader", path = "../edge-loader", version = "0.1.0" }
-edge-gpu = { package = "edgellm-gpu", path = "../edge-gpu", version = "0.1.0" }
+edge-core = { package = "edgellm-core", path = "../edge-core", version = "0.2.21" }
+edge-loader = { package = "edgellm-loader", path = "../edge-loader", version = "0.2.21" }
+edge-gpu = { package = "edgellm-gpu", path = "../edge-gpu", version = "0.2.21" }
 tokio = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
