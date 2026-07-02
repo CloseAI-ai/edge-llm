@@ -19,24 +19,35 @@ jobs:
       id-token: write  # for npm provenance
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
       - name: Install Rust (stable)
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30 # stable
         with:
           targets: wasm32-unknown-unknown
 
       - name: Cache Rust build artefacts
-        uses: Swatinem/rust-cache@v2
+        uses: Swatinem/rust-cache@23869a5bd66c73db3c0ac40331f3206eb23791dc # v2.9.1
 
       - name: Install wasm-pack
-        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+        run: cargo install wasm-pack --version 0.13.1 --locked
 
       - name: Build WASM package
         run: wasm-pack build edge-web --target web --out-dir pkg --release
 
+      - name: Verify Cargo/npm version match
+        working-directory: edge-web
+        run: |
+          CARGO_VERSION=$(grep -m1 '^version' ../Cargo.toml | sed 's/.*"\(.*\)"/\1/')
+          NPM_VERSION=$(node -p "require('./package.json').version")
+          if [ "$CARGO_VERSION" != "$NPM_VERSION" ]; then
+            echo "::error::Version mismatch: Cargo=$CARGO_VERSION npm=$NPM_VERSION"
+            exit 1
+          fi
+          echo "Versions match: $CARGO_VERSION"
+
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: "20"
           registry-url: "https://registry.npmjs.org"

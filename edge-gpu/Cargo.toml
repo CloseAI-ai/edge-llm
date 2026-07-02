@@ -14,7 +14,7 @@ readme = "../README.md"
 name = "edge_gpu"
 
 [dependencies]
-edge-core = { package = "edgellm-core", path = "../edge-core", version = "0.1.0" }
+edge-core = { package = "edgellm-core", path = "../edge-core", version = "0.2.21" }
 wgpu = { workspace = true }
 thiserror = { workspace = true }
 log = { workspace = true }
@@ -30,4 +30,4 @@ wasm-bindgen-futures = "0.4"
 
 [dev-dependencies]
 pollster = "0.4"
-edge-loader = { package = "edgellm-loader", path = "../edge-loader", version = "0.1.0" }
+edge-loader = { package = "edgellm-loader", path = "../edge-loader", version = "0.2.21" }

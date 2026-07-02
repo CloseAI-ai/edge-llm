@@ -14,7 +14,7 @@ readme = "../README.md"
 name = "edge_loader"
 
 [dependencies]
-edge-core = { package = "edgellm-core", path = "../edge-core", version = "0.1.0" }
+edge-core = { package = "edgellm-core", path = "../edge-core", version = "0.2.21" }
 thiserror = { workspace = true }
 byteorder = { workspace = true }
 log = { workspace = true }

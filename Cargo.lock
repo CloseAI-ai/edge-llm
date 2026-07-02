@@ -376,7 +376,7 @@ dependencies = [
 
 [[package]]
 name = "edgellm"
-version = "0.1.0"
+version = "0.2.21"
 dependencies = [
  "edgellm-core",
  "edgellm-gpu",
@@ -385,7 +385,7 @@ dependencies = [
 
 [[package]]
 name = "edgellm-core"
-version = "0.1.0"
+version = "0.2.21"
 dependencies = [
  "byteorder",
  "log",
@@ -397,7 +397,7 @@ dependencies = [
 
 [[package]]
 name = "edgellm-edge"
-version = "0.1.0"
+version = "0.2.21"
 dependencies = [
  "edgellm-core",
  "edgellm-loader",
@@ -409,7 +409,7 @@ dependencies = [
 
 [[package]]
 name = "edgellm-gpu"
-version = "0.1.0"
+version = "0.2.21"
 dependencies = [
  "bytemuck",
  "byteorder",
@@ -427,7 +427,7 @@ dependencies = [
 
 [[package]]
 name = "edgellm-loader"
-version = "0.1.0"
+version = "0.2.21"
 dependencies = [
  "byteorder",
  "edgellm-core",
@@ -440,7 +440,7 @@ dependencies = [
 
 [[package]]
 name = "edgellm-server"
-version = "0.1.0"
+version = "0.2.21"
 dependencies = [
  "axum",
  "clap",
@@ -462,7 +462,7 @@ dependencies = [
 
 [[package]]
 name = "edgellm-simd"
-version = "0.1.0"
+version = "0.2.21"
 dependencies = [
  "edgellm-core",
  "log",
@@ -471,7 +471,7 @@ dependencies = [
 
 [[package]]
 name = "edgellm-web"
-version = "0.1.0"
+version = "0.2.21"
 dependencies = [
  "console_error_panic_hook",
  "edgellm-core",

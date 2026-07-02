@@ -35,9 +35,9 @@ COPY edgellm         edgellm/
 # need; stub them out with minimal lib.rs files so cargo can resolve the
 # workspace without pulling in their (wasm-pack / edge-runtime) toolchains.
 COPY edge-web/Cargo.toml edge-web/Cargo.toml
-RUN mkdir -p edge-web/src && echo 'fn main() {}' > edge-web/src/lib.rs
+RUN mkdir -p edge-web/src && echo 'pub fn dummy() {}' > edge-web/src/lib.rs
 COPY edge-edge/Cargo.toml edge-edge/Cargo.toml
-RUN mkdir -p edge-edge/src && echo 'fn main() {}' > edge-edge/src/lib.rs
+RUN mkdir -p edge-edge/src && echo 'pub fn dummy() {}' > edge-edge/src/lib.rs
 
 RUN cargo build --release -p edgellm-server
 

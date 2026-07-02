@@ -15,10 +15,10 @@ name = "edge_web"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-edge-core = { package = "edgellm-core", path = "../edge-core", version = "0.1.0" }
-edge-loader = { package = "edgellm-loader", path = "../edge-loader", version = "0.1.0" }
-edge-gpu = { package = "edgellm-gpu", path = "../edge-gpu", version = "0.1.0" }
-edge-simd = { package = "edgellm-simd", path = "../edge-simd", version = "0.1.0" }
+edge-core = { package = "edgellm-core", path = "../edge-core", version = "0.2.21" }
+edge-loader = { package = "edgellm-loader", path = "../edge-loader", version = "0.2.21" }
+edge-gpu = { package = "edgellm-gpu", path = "../edge-gpu", version = "0.2.21" }
+edge-simd = { package = "edgellm-simd", path = "../edge-simd", version = "0.2.21" }
 wasm-bindgen = { workspace = true }
 web-sys = { workspace = true, features = [
     "console",
