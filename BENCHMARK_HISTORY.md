@@ -7,8 +7,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-09 (historical) — `b6f341a` Initial working inference
 
-**Hardware:** Apple M5 Pro, ARM64 (scalar)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (scalar)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Notes:** First working end-to-end inference. Naive scalar matvec.
 
 | Metric | tok/s |
@@ -18,8 +18,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-09 (historical) — `8aff56f` Optimize forward pass (4-wide unrolling)
 
-**Hardware:** Apple M5 Pro, ARM64 (scalar, 4-wide unroll)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (scalar, 4-wide unroll)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Notes:** Added 4-wide manual unrolling to matvec. +53% improvement.
 
 | Metric | tok/s |
@@ -29,8 +29,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-10 (historical) — `58eb62b` ARM NEON SIMD matvec
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Notes:** ARM NEON intrinsics with 4-way accumulator. 4.4x over scalar.
 
 | Metric | tok/s |
@@ -41,8 +41,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-09 19:30 — `ac3a913 Add real e2e benchmark with SmolLM2-135M baseline (#64)`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.25s
 
 | Metric | tok/s |
@@ -54,8 +54,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-09 20:13 — `7c9cede Add benchmark history log with --log flag (#65)`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.11s
 
 | Metric | tok/s |
@@ -67,8 +67,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-09 20:39 — `cd1225a Cache GPU compute pipelines to avoid per-call shader comp...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.10s
 
 | Metric | tok/s |
@@ -80,8 +80,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-09 20:40 — `cd1225a Cache GPU compute pipelines to avoid per-call shader comp...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 0.87s
 
 | Metric | tok/s |
@@ -93,8 +93,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-09 20:54 — `f468210 Cache RoPE cos/sin tables per call (#77)`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.10s
 
 | Metric | tok/s |
@@ -106,8 +106,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-09 20:55 — `f468210 Cache RoPE cos/sin tables per call (#77)`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 0.90s
 
 | Metric | tok/s |
@@ -119,8 +119,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 12:34 — `46b0840 Add doc-tests for edge-core public API (closes #362) (#365)`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.10s
 
 | Metric | tok/s |
@@ -132,8 +132,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 12:34 — `46b0840 Add doc-tests for edge-core public API (closes #362) (#365)`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.10s
 
 | Metric | tok/s |
@@ -145,8 +145,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 13:06 — `b22e91f Merge remote-tracking branch 'origin/worktree-feat-top-k-...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.12s
 
 | Metric | tok/s |
@@ -158,8 +158,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 15:00 — `3f04928 Merge pull request #374 from sauravpanda/feat-gpu-bench-366`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.11s
 
 | Metric | tok/s |
@@ -171,8 +171,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 15:12 — `86f6afe Fix WGSL shader builtin errors and GGUF raw weight dimens...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.09s
 
 | Metric | tok/s |
@@ -184,8 +184,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 15:21 — `af233e4 Merge pull request #375 from sauravpanda/gpu-resident-for...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.10s
 
 | Metric | tok/s |
@@ -197,8 +197,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 15:22 — `af233e4 Merge pull request #375 from sauravpanda/gpu-resident-for...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.09s
 
 | Metric | tok/s |
@@ -210,8 +210,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 15:23 — `af233e4 Merge pull request #375 from sauravpanda/gpu-resident-for...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 0.92s
 
 | Metric | tok/s |
@@ -223,8 +223,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 15:41 — `ccad363 Merge pull request #377 from sauravpanda/fix-buffer-shard...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 0.90s
 
 | Metric | tok/s |
@@ -236,8 +236,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 15:56 — `c7f6ad1 Merge pull request #378 from sauravpanda/gpu-forward-pass...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.11s
 
 | Metric | tok/s |
@@ -249,8 +249,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 16:03 — `c7f6ad1 Merge pull request #378 from sauravpanda/gpu-forward-pass...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 0.87s
 
 | Metric | tok/s |
@@ -262,8 +262,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 16:03 — `c7f6ad1 Merge pull request #378 from sauravpanda/gpu-forward-pass...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.11s
 
 | Metric | tok/s |
@@ -275,8 +275,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 16:47 — `43a26bb Merge pull request #400 from sauravpanda/feat/kivi-2bit-k...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.13s
 
 | Metric | tok/s |
@@ -288,8 +288,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 16:49 — `43a26bb Merge pull request #400 from sauravpanda/feat/kivi-2bit-k...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.10s
 
 | Metric | tok/s |
@@ -301,8 +301,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 16:50 — `43a26bb Merge pull request #400 from sauravpanda/feat/kivi-2bit-k...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 0.94s
 
 | Metric | tok/s |
@@ -314,8 +314,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 17:22 — `01448a5 Escape brackets in doc comment to fix rustdoc build`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.09s
 
 | Metric | tok/s |
@@ -327,8 +327,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 17:23 — `01448a5 Escape brackets in doc comment to fix rustdoc build`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 0.96s
 
 | Metric | tok/s |
@@ -340,8 +340,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 17:25 — `01448a5 Escape brackets in doc comment to fix rustdoc build`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.09s
 
 | Metric | tok/s |
@@ -353,8 +353,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 17:42 — `0870941 Merge pull request #407 from sauravpanda/direct-q8-0-matvec`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.10s
 
 | Metric | tok/s |
@@ -366,8 +366,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 17:43 — `0870941 Merge pull request #407 from sauravpanda/direct-q8-0-matvec`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 0.95s
 
 | Metric | tok/s |
@@ -379,8 +379,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 17:47 — `0870941 Merge pull request #407 from sauravpanda/direct-q8-0-matvec`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 0.91s
 
 | Metric | tok/s |
@@ -392,8 +392,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 17:49 — `0870941 Merge pull request #407 from sauravpanda/direct-q8-0-matvec`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 0.91s
 
 | Metric | tok/s |
@@ -405,8 +405,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 17:55 — `285d905 Merge pull request #408 from sauravpanda/optimize-q8-neon...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.11s
 
 | Metric | tok/s |
@@ -418,8 +418,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 17:56 — `285d905 Merge pull request #408 from sauravpanda/optimize-q8-neon...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 0.89s
 
 | Metric | tok/s |
@@ -431,8 +431,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 17:56 — `285d905 Merge pull request #408 from sauravpanda/optimize-q8-neon...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.11s
 
 | Metric | tok/s |
@@ -444,8 +444,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 18:13 — `3d1c838 Merge pull request #409 from sauravpanda/q8_0-int-dot-pro...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 0.97s
 
 | Metric | tok/s |
@@ -457,8 +457,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 18:13 — `3d1c838 Merge pull request #409 from sauravpanda/q8_0-int-dot-pro...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.12s
 
 | Metric | tok/s |
@@ -470,8 +470,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 18:14 — `3d1c838 Merge pull request #409 from sauravpanda/q8_0-int-dot-pro...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.11s
 
 | Metric | tok/s |
@@ -483,8 +483,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 18:15 — `3d1c838 Merge pull request #409 from sauravpanda/q8_0-int-dot-pro...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 0.94s
 
 | Metric | tok/s |
@@ -496,8 +496,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 18:24 — `77c10a1 Use ARM SDOT inline assembly for int8 dot product (#410)`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 0.96s
 
 | Metric | tok/s |
@@ -509,8 +509,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 18:24 — `77c10a1 Use ARM SDOT inline assembly for int8 dot product (#410)`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.11s
 
 | Metric | tok/s |
@@ -522,8 +522,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 18:29 — `e99a0ff Merge pull request #411 from sauravpanda/optimize-silu-at...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 0.92s
 
 | Metric | tok/s |
@@ -535,8 +535,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 18:29 — `e99a0ff Merge pull request #411 from sauravpanda/optimize-silu-at...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.10s
 
 | Metric | tok/s |
@@ -548,8 +548,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 18:30 — `e99a0ff Merge pull request #411 from sauravpanda/optimize-silu-at...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 0.91s
 
 | Metric | tok/s |
@@ -561,8 +561,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 18:54 — `e34507b Merge pull request #412 from sauravpanda/eliminate-forwar...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 1.04s
 
 | Metric | tok/s |
@@ -574,8 +574,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 18:54 — `e34507b Merge pull request #412 from sauravpanda/eliminate-forwar...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.10s
 
 | Metric | tok/s |
@@ -587,8 +587,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 18:57 — `e34507b Merge pull request #412 from sauravpanda/eliminate-forwar...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 0.86s
 
 | Metric | tok/s |
@@ -600,8 +600,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 18:57 — `e34507b Merge pull request #412 from sauravpanda/eliminate-forwar...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.10s
 
 | Metric | tok/s |
@@ -613,8 +613,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 18:58 — `e34507b Merge pull request #412 from sauravpanda/eliminate-forwar...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.10s
 
 | Metric | tok/s |
@@ -626,8 +626,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 19:05 — `8a123d5 Merge pull request #413 from sauravpanda/optimize-q8-matv...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 0.88s
 
 | Metric | tok/s |
@@ -639,8 +639,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 19:05 — `8a123d5 Merge pull request #413 from sauravpanda/optimize-q8-matv...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.11s
 
 | Metric | tok/s |
@@ -652,8 +652,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 19:25 — `8b28359 Use Q8_0 for output projection matvec to reduce memory ba...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 0.98s
 
 | Metric | tok/s |
@@ -665,8 +665,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 19:25 — `8b28359 Use Q8_0 for output projection matvec to reduce memory ba...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.11s
 
 | Metric | tok/s |
@@ -678,8 +678,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 19:48 — `5d96610 Merge pull request #416 from sauravpanda/optimize-attenti...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 0.89s
 
 | Metric | tok/s |
@@ -691,8 +691,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-13 19:48 — `5d96610 Merge pull request #416 from sauravpanda/optimize-attenti...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.10s
 
 | Metric | tok/s |
@@ -704,8 +704,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-14 10:59 — `e961f13 Merge pull request #417 from sauravpanda/fuse-qkv-gate-up...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 1.24s
 
 | Metric | tok/s |
@@ -717,8 +717,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-14 10:59 — `e961f13 Merge pull request #417 from sauravpanda/fuse-qkv-gate-up...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.11s
 
 | Metric | tok/s |
@@ -730,8 +730,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-14 11:02 — `5b5b84b Fix clippy warnings in fused attention test`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.09s
 
 | Metric | tok/s |
@@ -743,8 +743,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-14 11:03 — `5b5b84b Fix clippy warnings in fused attention test`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 0.86s
 
 | Metric | tok/s |
@@ -756,8 +756,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-14 11:27 — `830790e Merge pull request #420 from sauravpanda/greedy-fused-argmax`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 0.86s
 
 | Metric | tok/s |
@@ -769,8 +769,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-14 11:27 — `830790e Merge pull request #420 from sauravpanda/greedy-fused-argmax`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.15s
 
 | Metric | tok/s |
@@ -782,8 +782,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-14 12:31 — `ac4031a Fix clippy div_ceil and rustfmt for shader-f16, subgroups...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.14s
 
 | Metric | tok/s |
@@ -795,8 +795,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-14 12:32 — `ac4031a Fix clippy div_ceil and rustfmt for shader-f16, subgroups...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 1.19s
 
 | Metric | tok/s |
@@ -808,8 +808,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-14 12:52 — `1d11b8c Fix rustfmt`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.10s
 
 | Metric | tok/s |
@@ -821,8 +821,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-14 12:52 — `1d11b8c Fix rustfmt`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 0.88s
 
 | Metric | tok/s |
@@ -834,8 +834,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-14 16:00 — `2d2d415 Merge pull request #434 from sauravpanda/optimize-q8-matv...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 0.90s
 
 | Metric | tok/s |
@@ -847,8 +847,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-14 16:00 — `2d2d415 Merge pull request #434 from sauravpanda/optimize-q8-matv...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.10s
 
 | Metric | tok/s |
@@ -860,8 +860,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-14 16:15 — `dfbb1ca Merge pull request #435 from sauravpanda/hybrid-compute-p...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 1.02s
 
 | Metric | tok/s |
@@ -873,8 +873,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-14 16:15 — `dfbb1ca Merge pull request #435 from sauravpanda/hybrid-compute-p...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.12s
 
 | Metric | tok/s |
@@ -886,8 +886,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-14 16:48 — `7a69d04 Fix rustfmt after hybrid Q8_0/f32 PR`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 0.97s
 
 | Metric | tok/s |
@@ -899,8 +899,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-14 16:48 — `7a69d04 Fix rustfmt after hybrid Q8_0/f32 PR`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.12s
 
 | Metric | tok/s |
@@ -912,8 +912,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-14 17:01 — `1c2dd6c Merge pull request #452 from sauravpanda/fused-rmsnorm-q8...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 0.93s
 
 | Metric | tok/s |
@@ -925,8 +925,8 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-14 17:01 — `1c2dd6c Merge pull request #452 from sauravpanda/fused-rmsnorm-q8...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.12s
 
 | Metric | tok/s |
@@ -938,9 +938,9 @@ Baseline model: SmolLM2-135M-Instruct Q8_0 (138MB, 30 layers, dim=576).
 
 ### 2026-04-14 17:52 — `7f4c2cd` Llama-3.2-1B Q4_K_M first run (issue #441)
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048, **Q4_K_M** (785MB on disk)  
-**Load time:** 1.01s  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048, **Q4_K_M** (785MB on disk)
+**Load time:** 1.01s
 **Notes:** First end-to-end run with a real Q4_K_M model (downloaded via
 `scripts/download_q4k_model.sh`). Q4_K layer weights activate the
 `use_cpu_q4k` path (direct 4-bit x f32 NEON matvec). Output projection stays
@@ -969,8 +969,8 @@ bandwidth-bound and has clear headroom for SIMD tuning.
 
 ### 2026-04-14 17:55 — `b8a08fb Add Q4_K_M download script and first Llama-3.2-1B Q4_K_M ...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 1.10s
 
 | Metric | tok/s |
@@ -982,8 +982,8 @@ bandwidth-bound and has clear headroom for SIMD tuning.
 
 ### 2026-04-14 17:57 — `b8a08fb Add Q4_K_M download script and first Llama-3.2-1B Q4_K_M ...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 0.93s
 
 | Metric | tok/s |
@@ -995,8 +995,8 @@ bandwidth-bound and has clear headroom for SIMD tuning.
 
 ### 2026-04-14 17:58 — `b8a08fb Add Q4_K_M download script and first Llama-3.2-1B Q4_K_M ...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 0.91s
 
 | Metric | tok/s |
@@ -1008,8 +1008,8 @@ bandwidth-bound and has clear headroom for SIMD tuning.
 
 ### 2026-04-14 17:58 — `b8a08fb Add Q4_K_M download script and first Llama-3.2-1B Q4_K_M ...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.13s
 
 | Metric | tok/s |
@@ -1021,8 +1021,8 @@ bandwidth-bound and has clear headroom for SIMD tuning.
 
 ### 2026-04-14 17:59 — `b8a08fb Add Q4_K_M download script and first Llama-3.2-1B Q4_K_M ...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.11s
 
 | Metric | tok/s |
@@ -1034,8 +1034,8 @@ bandwidth-bound and has clear headroom for SIMD tuning.
 
 ### 2026-04-14 17:59 — `b8a08fb Add Q4_K_M download script and first Llama-3.2-1B Q4_K_M ...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 0.94s
 
 | Metric | tok/s |
@@ -1047,8 +1047,8 @@ bandwidth-bound and has clear headroom for SIMD tuning.
 
 ### 2026-04-14 18:12 — `dbf01e9 Tune adaptive chunk size for matvec: 64/256/1024 tiers`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 1.07s
 
 | Metric | tok/s |
@@ -1060,8 +1060,8 @@ bandwidth-bound and has clear headroom for SIMD tuning.
 
 ### 2026-04-14 18:15 — `968a3fa Add Q4_K x Q8_0-input matvec path (decode 20 -> 34 tok/s ...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 1.08s
 
 | Metric | tok/s |
@@ -1073,8 +1073,8 @@ bandwidth-bound and has clear headroom for SIMD tuning.
 
 ### 2026-04-14 18:15 — `968a3fa Add Q4_K x Q8_0-input matvec path (decode 20 -> 34 tok/s ...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 1.00s
 
 | Metric | tok/s |
@@ -1086,8 +1086,8 @@ bandwidth-bound and has clear headroom for SIMD tuning.
 
 ### 2026-04-14 18:15 — `968a3fa Add Q4_K x Q8_0-input matvec path (decode 20 -> 34 tok/s ...`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.12s
 
 | Metric | tok/s |
@@ -1099,8 +1099,8 @@ bandwidth-bound and has clear headroom for SIMD tuning.
 
 ### 2026-04-15 18:30 — `d409693 Release edge-web 0.1.1 on npm (#462)`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~162M params, 30 layers, dim=576  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~162M params, 30 layers, dim=576
 **Load time:** 0.13s
 
 | Metric | tok/s |
@@ -1112,8 +1112,8 @@ bandwidth-bound and has clear headroom for SIMD tuning.
 
 ### 2026-04-15 18:31 — `d409693 Release edge-web 0.1.1 on npm (#462)`
 
-**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)  
-**Model:** Llama, ~1498M params, 16 layers, dim=2048  
+**Hardware:** Apple M5 Pro, ARM64 (NEON SIMD)
+**Model:** Llama, ~1498M params, 16 layers, dim=2048
 **Load time:** 1.44s
 
 | Metric | tok/s |

@@ -49,6 +49,7 @@ impl ChatTemplate {
     ///
     /// assert_eq!(ChatTemplate::from_architecture("llama"), ChatTemplate::Llama3);
     /// assert_eq!(ChatTemplate::from_architecture("qwen2"), ChatTemplate::ChatML);
+    /// assert_eq!(ChatTemplate::from_architecture("qwen3"), ChatTemplate::ChatML);
     /// assert_eq!(ChatTemplate::from_architecture("phi3"),  ChatTemplate::Phi3);
     /// assert_eq!(ChatTemplate::from_architecture("gemma2"), ChatTemplate::Gemma);
     /// // Unknown architecture falls back to ChatML
@@ -57,7 +58,7 @@ impl ChatTemplate {
     pub fn from_architecture(arch: &str) -> Self {
         match arch.to_lowercase().as_str() {
             "llama" => ChatTemplate::Llama3,
-            "qwen2" | "mistral" => ChatTemplate::ChatML,
+            "qwen" | "qwen2" | "qwen3" | "qwen3moe" | "mistral" => ChatTemplate::ChatML,
             "phi3" => ChatTemplate::Phi3,
             "gemma2" => ChatTemplate::Gemma,
             _ => ChatTemplate::ChatML,
@@ -293,6 +294,27 @@ mod tests {
         assert_eq!(
             ChatTemplate::from_architecture("gemma2"),
             ChatTemplate::Gemma
+        );
+    }
+
+    #[test]
+    fn test_auto_detect_qwen_family() {
+        // All Qwen variants should map to ChatML
+        assert_eq!(
+            ChatTemplate::from_architecture("qwen"),
+            ChatTemplate::ChatML
+        );
+        assert_eq!(
+            ChatTemplate::from_architecture("qwen2"),
+            ChatTemplate::ChatML
+        );
+        assert_eq!(
+            ChatTemplate::from_architecture("qwen3"),
+            ChatTemplate::ChatML
+        );
+        assert_eq!(
+            ChatTemplate::from_architecture("qwen3moe"),
+            ChatTemplate::ChatML
         );
     }
 

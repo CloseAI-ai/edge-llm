@@ -1075,6 +1075,9 @@ pub struct LayerWeights {
     pub attn_q_bias: Option<Tensor>,
     pub attn_k_bias: Option<Tensor>,
     pub attn_v_bias: Option<Tensor>,
+    // Optional QK-norm for Qwen 3 (RMSNorm on Q/K before RoPE)
+    pub attn_q_norm: Option<Tensor>,
+    pub attn_k_norm: Option<Tensor>,
     // Post-norms for Gemma 2 (applied after attention output / FFN output)
     pub post_attn_norm: Option<Tensor>,
     pub post_ffn_norm: Option<Tensor>,
@@ -2166,6 +2169,28 @@ impl Model {
                     *v += b;
                 }
             }
+
+            // Apply QK-norm (Qwen 3): RMSNorm on Q/K before RoPE.
+            // This stabilizes training for long-context models.
+            if let Some(ref q_norm) = layer.attn_q_norm {
+                let q_copy = self.forward_buffers.q_data.clone();
+                rmsnorm_into(
+                    &q_copy,
+                    q_norm.data(),
+                    config.rms_norm_eps,
+                    &mut self.forward_buffers.q_data,
+                );
+            }
+            if let Some(ref k_norm) = layer.attn_k_norm {
+                let k_copy = self.forward_buffers.k_data.clone();
+                rmsnorm_into(
+                    &k_copy,
+                    k_norm.data(),
+                    config.rms_norm_eps,
+                    &mut self.forward_buffers.k_data,
+                );
+            }
+
             apply_rope_with_table(
                 &mut self.forward_buffers.q_data,
                 num_heads,
@@ -2751,6 +2776,33 @@ impl Model {
                     }
                 }
 
+                // Apply QK-norm (Qwen 3): RMSNorm on Q/K before RoPE.
+                // Applied per-token in the batched path.
+                let q_norm_w: Option<Vec<f32>> = self.weights.layers[layer_idx]
+                    .attn_q_norm
+                    .as_ref()
+                    .map(|t| t.data().to_vec());
+                let k_norm_w: Option<Vec<f32>> = self.weights.layers[layer_idx]
+                    .attn_k_norm
+                    .as_ref()
+                    .map(|t| t.data().to_vec());
+                if let Some(ref qnw) = q_norm_w {
+                    for t in 0..seq_len {
+                        let start = t * q_dim;
+                        let end = start + q_dim;
+                        let row_copy = q_proj[start..end].to_vec();
+                        rmsnorm_into(&row_copy, qnw, config.rms_norm_eps, &mut q_proj[start..end]);
+                    }
+                }
+                if let Some(ref knw) = k_norm_w {
+                    for t in 0..seq_len {
+                        let start = t * kv_dim;
+                        let end = start + kv_dim;
+                        let row_copy = k_proj[start..end].to_vec();
+                        rmsnorm_into(&row_copy, knw, config.rms_norm_eps, &mut k_proj[start..end]);
+                    }
+                }
+
                 // RoPE: single GPU dispatch instead of 2 × seq_len CPU calls.
                 let t_rope = self.tick();
                 let q_roped = self.backend.batched_rope(
@@ -3197,6 +3249,32 @@ impl Model {
                         for (vi, &bi) in row.iter_mut().zip(b.iter()) {
                             *vi += bi;
                         }
+                    }
+                }
+
+                // Apply QK-norm (Qwen 3): RMSNorm on Q/K before RoPE.
+                let q_norm_w: Option<Vec<f32>> = self.weights.layers[layer_idx]
+                    .attn_q_norm
+                    .as_ref()
+                    .map(|t| t.data().to_vec());
+                let k_norm_w: Option<Vec<f32>> = self.weights.layers[layer_idx]
+                    .attn_k_norm
+                    .as_ref()
+                    .map(|t| t.data().to_vec());
+                if let Some(ref qnw) = q_norm_w {
+                    for t in 0..seq_len {
+                        let start = t * q_dim;
+                        let end = start + q_dim;
+                        let row_copy = q_proj[start..end].to_vec();
+                        rmsnorm_into(&row_copy, qnw, config.rms_norm_eps, &mut q_proj[start..end]);
+                    }
+                }
+                if let Some(ref knw) = k_norm_w {
+                    for t in 0..seq_len {
+                        let start = t * kv_dim;
+                        let end = start + kv_dim;
+                        let row_copy = k_proj[start..end].to_vec();
+                        rmsnorm_into(&row_copy, knw, config.rms_norm_eps, &mut k_proj[start..end]);
                     }
                 }
 
@@ -3796,6 +3874,27 @@ impl Model {
                     *v += b;
                 }
             }
+
+            // Apply QK-norm (Qwen 3): RMSNorm on Q/K before RoPE.
+            if let Some(ref q_norm) = layer.attn_q_norm {
+                let q_copy = self.forward_buffers.q_data.clone();
+                rmsnorm_into(
+                    &q_copy,
+                    q_norm.data(),
+                    config.rms_norm_eps,
+                    &mut self.forward_buffers.q_data,
+                );
+            }
+            if let Some(ref k_norm) = layer.attn_k_norm {
+                let k_copy = self.forward_buffers.k_data.clone();
+                rmsnorm_into(
+                    &k_copy,
+                    k_norm.data(),
+                    config.rms_norm_eps,
+                    &mut self.forward_buffers.k_data,
+                );
+            }
+
             apply_rope_with_table(
                 &mut self.forward_buffers.q_data,
                 num_heads,
@@ -4437,6 +4536,27 @@ impl Model {
                     *v += b;
                 }
             }
+
+            // Apply QK-norm (Qwen 3): RMSNorm on Q/K before RoPE.
+            if let Some(ref q_norm) = layer.attn_q_norm {
+                let q_copy = self.forward_buffers.q_data.clone();
+                rmsnorm_into(
+                    &q_copy,
+                    q_norm.data(),
+                    config.rms_norm_eps,
+                    &mut self.forward_buffers.q_data,
+                );
+            }
+            if let Some(ref k_norm) = layer.attn_k_norm {
+                let k_copy = self.forward_buffers.k_data.clone();
+                rmsnorm_into(
+                    &k_copy,
+                    k_norm.data(),
+                    config.rms_norm_eps,
+                    &mut self.forward_buffers.k_data,
+                );
+            }
+
             apply_rope_with_table(
                 &mut self.forward_buffers.q_data,
                 num_heads,
@@ -10486,6 +10606,7 @@ mod tests {
             attn_logit_softcap: 0.0,
             final_logit_softcap: 0.0,
             kv_cache_bits: 32,
+            qk_norm: false,
             moe: false,
             num_experts: 0,
             num_experts_per_token: 0,
@@ -10515,6 +10636,8 @@ mod tests {
             attn_q_bias: None,
             attn_k_bias: None,
             attn_v_bias: None,
+            attn_q_norm: None,
+            attn_k_norm: None,
             post_attn_norm: None,
             post_ffn_norm: None,
             moe: None,
@@ -10591,6 +10714,7 @@ mod tests {
             attn_logit_softcap: 0.0,
             final_logit_softcap: 0.0,
             kv_cache_bits: 32,
+            qk_norm: false,
             moe: false,
             num_experts: 0,
             num_experts_per_token: 0,
@@ -10619,6 +10743,8 @@ mod tests {
             attn_q_bias: None,
             attn_k_bias: None,
             attn_v_bias: None,
+            attn_q_norm: None,
+            attn_k_norm: None,
             post_attn_norm: None,
             post_ffn_norm: None,
             moe: None,
@@ -10653,6 +10779,8 @@ mod tests {
                 attn_q_bias: None,
                 attn_k_bias: None,
                 attn_v_bias: None,
+                attn_q_norm: None,
+                attn_k_norm: None,
                 post_attn_norm: None,
                 post_ffn_norm: None,
                 moe: None,
@@ -10697,6 +10825,7 @@ mod tests {
             attn_logit_softcap: 0.0,
             final_logit_softcap: 0.0,
             kv_cache_bits: 32,
+            qk_norm: false,
             moe: false,
             num_experts: 0,
             num_experts_per_token: 0,
@@ -10718,6 +10847,8 @@ mod tests {
             attn_q_bias: None,
             attn_k_bias: None,
             attn_v_bias: None,
+            attn_q_norm: None,
+            attn_k_norm: None,
             post_attn_norm: None,
             post_ffn_norm: None,
             moe: None,
@@ -10780,6 +10911,7 @@ mod tests {
             attn_logit_softcap: 0.0,
             final_logit_softcap: 0.0,
             kv_cache_bits: 32,
+            qk_norm: false,
             moe: false,
             num_experts: 0,
             num_experts_per_token: 0,
@@ -10807,6 +10939,8 @@ mod tests {
             attn_q_bias: None,
             attn_k_bias: None,
             attn_v_bias: None,
+            attn_q_norm: None,
+            attn_k_norm: None,
             post_attn_norm: None,
             post_ffn_norm: None,
             moe: None,
@@ -10863,6 +10997,8 @@ mod tests {
             attn_q_bias: None,
             attn_k_bias: None,
             attn_v_bias: None,
+            attn_q_norm: None,
+            attn_k_norm: None,
             post_attn_norm: None,
             post_ffn_norm: None,
             moe: None,
@@ -11267,6 +11403,7 @@ mod tests {
             attn_logit_softcap: 0.0,
             final_logit_softcap: 0.0,
             kv_cache_bits: 32,
+            qk_norm: false,
             moe: false,
             num_experts: 0,
             num_experts_per_token: 0,
@@ -11316,6 +11453,8 @@ mod tests {
                 attn_q_bias: None,
                 attn_k_bias: None,
                 attn_v_bias: None,
+                attn_q_norm: None,
+                attn_k_norm: None,
                 post_attn_norm: None,
                 post_ffn_norm: None,
                 moe: None,
@@ -11441,6 +11580,7 @@ mod tests {
             attn_logit_softcap: 0.0,
             final_logit_softcap: 0.0,
             kv_cache_bits: 32,
+            qk_norm: false,
             moe: false,
             num_experts: 0,
             num_experts_per_token: 0,
@@ -11470,6 +11610,8 @@ mod tests {
             attn_q_bias: None,
             attn_k_bias: None,
             attn_v_bias: None,
+            attn_q_norm: None,
+            attn_k_norm: None,
             post_attn_norm: None,
             post_ffn_norm: None,
             moe: None,

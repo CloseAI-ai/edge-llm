@@ -254,7 +254,8 @@ impl GgufFile {
 
         let architecture = match arch_str.to_lowercase().as_str() {
             "llama" => Architecture::Llama,
-            "qwen2" => Architecture::Qwen2,
+            "qwen" | "qwen2" => Architecture::Qwen2,
+            "qwen3" | "qwen3moe" => Architecture::Qwen3,
             "mistral" => Architecture::Mistral,
             "phi3" => Architecture::Phi3,
             "gemma2" => Architecture::Gemma2,
@@ -323,6 +324,11 @@ impl GgufFile {
             .unwrap_or(0);
         let moe = num_experts > 0 && num_experts_per_token > 0;
 
+        // QK-norm detection: Qwen 3 uses RMSNorm on Q/K before RoPE.
+        // Detect by checking for the attn_q_norm tensor in layer 0.
+        let qk_norm = self.find_tensor("blk.0.attn_q_norm.weight").is_some()
+            || architecture == Architecture::Qwen3;
+
         Ok(ModelConfig {
             architecture,
             vocab_size,
@@ -337,6 +343,7 @@ impl GgufFile {
             rms_norm_eps,
             attn_logit_softcap,
             final_logit_softcap,
+            qk_norm,
             kv_cache_bits: 32,
             moe,
             num_experts,
@@ -1105,6 +1112,72 @@ mod tests {
         assert_eq!(config.num_heads, 16);
         // kv_heads defaults to num_heads when not specified
         assert_eq!(config.num_kv_heads, 16);
+    }
+
+    #[test]
+    fn test_to_model_config_qwen_v1() {
+        // Qwen (v1) uses "qwen" architecture string, maps to Qwen2
+        let mut buf = Vec::new();
+        write_gguf_header(&mut buf, 0, 4);
+
+        write_meta_str(&mut buf, "general.architecture", "qwen");
+        write_meta_u32(&mut buf, "qwen.embedding_length", 1024);
+        write_meta_u32(&mut buf, "qwen.block_count", 12);
+        write_meta_u32(&mut buf, "qwen.attention.head_count", 16);
+
+        let mut cursor = Cursor::new(buf);
+        let file = GgufFile::parse_header(&mut cursor).unwrap();
+        let config = file.to_model_config().unwrap();
+
+        assert_eq!(config.architecture, Architecture::Qwen2);
+        assert_eq!(config.hidden_dim, 1024);
+        assert_eq!(config.num_layers, 12);
+        assert_eq!(config.num_heads, 16);
+    }
+
+    #[test]
+    fn test_to_model_config_qwen3() {
+        let mut buf = Vec::new();
+        write_gguf_header(&mut buf, 0, 4);
+
+        write_meta_str(&mut buf, "general.architecture", "qwen3");
+        write_meta_u32(&mut buf, "qwen3.embedding_length", 1024);
+        write_meta_u32(&mut buf, "qwen3.block_count", 12);
+        write_meta_u32(&mut buf, "qwen3.attention.head_count", 16);
+
+        let mut cursor = Cursor::new(buf);
+        let file = GgufFile::parse_header(&mut cursor).unwrap();
+        let config = file.to_model_config().unwrap();
+
+        assert_eq!(config.architecture, Architecture::Qwen3);
+        assert_eq!(config.hidden_dim, 1024);
+        assert_eq!(config.num_layers, 12);
+        assert_eq!(config.num_heads, 16);
+        // Qwen3 always has qk_norm
+        assert!(config.qk_norm);
+    }
+
+    #[test]
+    fn test_to_model_config_qwen3_moe() {
+        let mut buf = Vec::new();
+        write_gguf_header(&mut buf, 0, 6);
+
+        write_meta_str(&mut buf, "general.architecture", "qwen3moe");
+        write_meta_u32(&mut buf, "qwen3moe.embedding_length", 1024);
+        write_meta_u32(&mut buf, "qwen3moe.block_count", 12);
+        write_meta_u32(&mut buf, "qwen3moe.attention.head_count", 16);
+        write_meta_u32(&mut buf, "llm.expert_count", 8);
+        write_meta_u32(&mut buf, "llm.expert_used_count", 2);
+
+        let mut cursor = Cursor::new(buf);
+        let file = GgufFile::parse_header(&mut cursor).unwrap();
+        let config = file.to_model_config().unwrap();
+
+        assert_eq!(config.architecture, Architecture::Qwen3);
+        assert!(config.qk_norm);
+        assert!(config.moe);
+        assert_eq!(config.num_experts, 8);
+        assert_eq!(config.num_experts_per_token, 2);
     }
 
     #[test]

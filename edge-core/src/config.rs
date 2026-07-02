@@ -38,6 +38,10 @@ pub struct ModelConfig {
     /// Set to 2 to enable KIVI-style 2-bit quantization for ~8x memory savings.
     #[serde(default = "default_kv_cache_bits")]
     pub kv_cache_bits: u8,
+    /// Whether this model uses QK-norm (RMSNorm on Q/K before RoPE).
+    /// Used by Qwen 3 and some other architectures.
+    #[serde(default)]
+    pub qk_norm: bool,
     /// Whether this model uses Mixture-of-Experts (MoE) architecture.
     /// When true, the FFN block uses a gating router to select a subset of
     /// experts per token instead of a single shared FFN.
@@ -60,7 +64,10 @@ fn default_kv_cache_bits() -> u8 {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum Architecture {
     Llama,
+    /// Qwen 1 / 1.5 / 2 / 2.5 — attention biases, SwiGLU, ChatML template.
     Qwen2,
+    /// Qwen 3 / 3-MoE — QK-norm (RMSNorm on Q/K before RoPE), no attention biases.
+    Qwen3,
     Mistral,
     /// Phi-3 / Phi-3.5 mini — forward pass identical to Llama, different chat template.
     Phi3,
@@ -123,6 +130,7 @@ impl Default for ModelConfig {
             attn_logit_softcap: 0.0,
             final_logit_softcap: 0.0,
             kv_cache_bits: 32,
+            qk_norm: false,
             moe: false,
             num_experts: 0,
             num_experts_per_token: 0,
@@ -152,6 +160,7 @@ mod tests {
             attn_logit_softcap: 0.0,
             final_logit_softcap: 0.0,
             kv_cache_bits: 32,
+            qk_norm: false,
             moe: false,
             num_experts: 0,
             num_experts_per_token: 0,
@@ -188,10 +197,12 @@ mod tests {
     fn test_architecture_equality() {
         assert_eq!(Architecture::Llama, Architecture::Llama);
         assert_eq!(Architecture::Qwen2, Architecture::Qwen2);
+        assert_eq!(Architecture::Qwen3, Architecture::Qwen3);
         assert_eq!(Architecture::Mistral, Architecture::Mistral);
         assert_eq!(Architecture::Phi3, Architecture::Phi3);
         assert_eq!(Architecture::Gemma2, Architecture::Gemma2);
         assert_ne!(Architecture::Llama, Architecture::Gemma2);
+        assert_ne!(Architecture::Qwen2, Architecture::Qwen3);
     }
 
     #[test]

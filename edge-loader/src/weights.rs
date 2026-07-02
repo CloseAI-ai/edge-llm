@@ -308,6 +308,24 @@ fn load_layer_weights(
     )
     .ok();
 
+    // Optional QK-norm for Qwen 3 (RMSNorm on Q/K before RoPE)
+    let attn_q_norm = find_tensor(
+        tensors,
+        &[
+            &format!("blk.{i}.attn_q_norm.weight"),
+            &format!("model.layers.{i}.self_attn.q_norm.weight"),
+        ],
+    )
+    .ok();
+    let attn_k_norm = find_tensor(
+        tensors,
+        &[
+            &format!("blk.{i}.attn_k_norm.weight"),
+            &format!("model.layers.{i}.self_attn.k_norm.weight"),
+        ],
+    )
+    .ok();
+
     // Post-norms for Gemma 2 (absent in other architectures)
     let post_attn_norm = find_tensor(
         tensors,
@@ -393,6 +411,8 @@ fn load_layer_weights(
         attn_q_bias,
         attn_k_bias,
         attn_v_bias,
+        attn_q_norm,
+        attn_k_norm,
         post_attn_norm,
         post_ffn_norm,
         moe,
@@ -477,6 +497,9 @@ pub fn infer_model_config_from_safetensors(
         })?;
     let intermediate_dim = w_gate.shape[0];
 
+    // Detect QK-norm by checking for q_norm tensor in layer 0
+    let qk_norm = tensors.contains_key("model.layers.0.self_attn.q_norm.weight");
+
     Ok(ModelConfig {
         architecture: Architecture::Llama,
         vocab_size,
@@ -492,6 +515,7 @@ pub fn infer_model_config_from_safetensors(
         attn_logit_softcap: 0.0,
         final_logit_softcap: 0.0,
         kv_cache_bits: 32,
+        qk_norm,
         moe: false,
         num_experts: 0,
         num_experts_per_token: 0,
@@ -572,6 +596,16 @@ fn load_st_layer_weights(
         &[&format!("model.layers.{i}.self_attn.v_proj.bias")],
     )
     .ok();
+    let attn_q_norm = find_st_tensor(
+        tensors,
+        &[&format!("model.layers.{i}.self_attn.q_norm.weight")],
+    )
+    .ok();
+    let attn_k_norm = find_st_tensor(
+        tensors,
+        &[&format!("model.layers.{i}.self_attn.k_norm.weight")],
+    )
+    .ok();
     let post_attn_norm = find_st_tensor(
         tensors,
         &[&format!("model.layers.{i}.post_attention_layernorm.weight")],
@@ -599,6 +633,8 @@ fn load_st_layer_weights(
         attn_q_bias,
         attn_k_bias,
         attn_v_bias,
+        attn_q_norm,
+        attn_k_norm,
         post_attn_norm,
         post_ffn_norm,
         moe: None,
