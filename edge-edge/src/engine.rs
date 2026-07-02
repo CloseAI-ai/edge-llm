@@ -17,6 +17,9 @@ use thiserror::Error;
 
 use crate::api::{ChatCompletionChunk, ChatCompletionRequest, ChatCompletionResponse, Message};
 
+/// Base seed mixed with the system clock for edge-runtime sampling.
+const EDGE_RNG_BASE_SEED: u32 = 0xDEAD_BEEF;
+
 /// Errors that can occur in the edge engine.
 #[derive(Debug, Error)]
 pub enum EdgeError {
@@ -236,7 +239,7 @@ impl EdgeEngine {
 
 /// Simple xorshift32 RNG seeded from the system clock.
 fn make_rng() -> impl FnMut() -> f32 {
-    let mut state: u32 = 0xDEADBEEF
+    let mut state: u32 = EDGE_RNG_BASE_SEED
         ^ (std::time::SystemTime::now()
             .duration_since(std::time::UNIX_EPOCH)
             .unwrap_or_default()

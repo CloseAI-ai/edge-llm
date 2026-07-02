@@ -42,6 +42,13 @@ use edge_loader::weights::{
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
 
+/// Default deterministic seed for browser-side sampling.
+const DEFAULT_RNG_SEED: u32 = 0x1234_5678;
+/// Linear congruential generator multiplier used for deterministic sampling.
+const LCG_MULTIPLIER: u32 = 1_664_525;
+/// Linear congruential generator increment used for deterministic sampling.
+const LCG_INCREMENT: u32 = 1_013_904_223;
+
 /// Set up better panic messages in the browser console.
 #[wasm_bindgen(start)]
 pub fn start() {
@@ -424,7 +431,7 @@ pub struct EdgeEngine {
     stream_text_accum: String,
     // --- RNG seed ---
     /// User-configurable LCG seed applied to the next generation call.
-    /// Defaults to `0x12345678`; reset to default by `reset()`.
+    /// Defaults to `DEFAULT_RNG_SEED`; reset to default by `reset()`.
     rng_seed: u32,
     // --- GGUF metadata ---
     /// Pre-built JSON string of scalar GGUF metadata (large vocabulary arrays excluded).
@@ -623,7 +630,7 @@ impl EdgeLoader {
                 temperature: 0.0,
                 ..Default::default()
             },
-            stream_rng_state: 0x12345678,
+            stream_rng_state: DEFAULT_RNG_SEED,
             stream_last_token: 0,
             stream_recent_tokens: Vec::new(),
             repeat_last_n: 64,
@@ -637,7 +644,7 @@ impl EdgeLoader {
             stream_decode_start_ms: 0.0,
             stop_sequences: Vec::new(),
             stream_text_accum: String::new(),
-            rng_seed: 0x12345678,
+            rng_seed: DEFAULT_RNG_SEED,
             metadata_json,
             last_logits: Vec::new(),
             top_logprobs_n: 0,
@@ -822,7 +829,7 @@ impl EdgeEngine {
                 temperature: 0.0,
                 ..Default::default()
             },
-            stream_rng_state: 0x12345678,
+            stream_rng_state: DEFAULT_RNG_SEED,
             stream_last_token: 0,
             stream_recent_tokens: Vec::new(),
             repeat_last_n: 64,
@@ -836,7 +843,7 @@ impl EdgeEngine {
             stream_decode_start_ms: 0.0,
             stop_sequences: Vec::new(),
             stream_text_accum: String::new(),
-            rng_seed: 0x12345678,
+            rng_seed: DEFAULT_RNG_SEED,
             metadata_json,
             last_logits: Vec::new(),
             top_logprobs_n: 0,
@@ -1123,7 +1130,7 @@ impl EdgeEngine {
     /// Reset the KV cache (start a new conversation).
     ///
     /// Also clears stop sequences, the internal text accumulator, and
-    /// restores the RNG seed to the default `0x12345678`.
+    /// restores the RNG seed to `DEFAULT_RNG_SEED`.
     #[wasm_bindgen]
     pub fn reset(&mut self) {
         self.model.reset();
@@ -1131,7 +1138,7 @@ impl EdgeEngine {
         self.stream_recent_tokens.clear();
         self.stop_sequences.clear();
         self.stream_text_accum.clear();
-        self.rng_seed = 0x12345678;
+        self.rng_seed = DEFAULT_RNG_SEED;
         self.last_logits.clear();
         self.top_logprobs_data.clear();
         self.stream_stop_reason.clear();
@@ -2123,8 +2130,8 @@ impl EdgeEngine {
             // Advance LCG RNG state for this token.
             self.stream_rng_state = self
                 .stream_rng_state
-                .wrapping_mul(1664525)
-                .wrapping_add(1013904223);
+                .wrapping_mul(LCG_MULTIPLIER)
+                .wrapping_add(LCG_INCREMENT);
             let rng_val = (self.stream_rng_state as f32) / (u32::MAX as f32);
             // Mirror Generator::step() priority: top_p > min_p > top_k > full nucleus
             if self.stream_params.top_p < 1.0 {
@@ -2231,8 +2238,8 @@ impl EdgeEngine {
             sampling::apply_temperature(&mut logits, self.stream_params.temperature);
             self.stream_rng_state = self
                 .stream_rng_state
-                .wrapping_mul(1664525)
-                .wrapping_add(1013904223);
+                .wrapping_mul(LCG_MULTIPLIER)
+                .wrapping_add(LCG_INCREMENT);
             let rng_val = (self.stream_rng_state as f32) / (u32::MAX as f32);
             if self.stream_params.top_p < 1.0 {
                 sampling::sample_top_p(&logits, self.stream_params.top_p, rng_val)
@@ -2358,7 +2365,7 @@ impl EdgeEngine {
     /// same seed will be reused on subsequent calls unless `set_rng_seed` or
     /// `reset()` is called again.
     ///
-    /// `reset()` restores the seed to the default `0x12345678`.
+    /// `reset()` restores the seed to `DEFAULT_RNG_SEED`.
     ///
     /// ```javascript
     /// engine.set_rng_seed(42);
@@ -2476,7 +2483,9 @@ impl EdgeEngine {
         // Simple LCG for browser-side RNG (seeded from self.rng_seed)
         let mut state: u32 = self.rng_seed;
         let mut rng = move || {
-            state = state.wrapping_mul(1664525).wrapping_add(1013904223);
+            state = state
+                .wrapping_mul(LCG_MULTIPLIER)
+                .wrapping_add(LCG_INCREMENT);
             (state as f32) / (u32::MAX as f32)
         };
         let result = gen.generate(
@@ -2961,7 +2970,7 @@ impl EdgeProgressiveLoader {
                 temperature: 0.0,
                 ..Default::default()
             },
-            stream_rng_state: 0x12345678,
+            stream_rng_state: DEFAULT_RNG_SEED,
             stream_last_token: 0,
             stream_recent_tokens: Vec::new(),
             repeat_last_n: 64,
@@ -2975,7 +2984,7 @@ impl EdgeProgressiveLoader {
             stream_decode_start_ms: 0.0,
             stop_sequences: Vec::new(),
             stream_text_accum: String::new(),
-            rng_seed: 0x12345678,
+            rng_seed: DEFAULT_RNG_SEED,
             metadata_json,
             last_logits: Vec::new(),
             top_logprobs_n: 0,

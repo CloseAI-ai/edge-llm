@@ -11,6 +11,9 @@ use edge_loader::gguf::GgufFile;
 use edge_loader::tokenizer::GgufVocab;
 use edge_loader::weights::load_model_weights;
 
+/// Base seed mixed with the system clock for CLI sampling.
+const CLI_RNG_BASE_SEED: u32 = 0xDEAD_BEEF;
+
 fn main() {
     let args: Vec<String> = std::env::args().collect();
 
@@ -138,7 +141,7 @@ fn main() {
     };
 
     // Simple RNG (xorshift32)
-    let mut rng_state: u32 = 0xDEADBEEF
+    let mut rng_state: u32 = CLI_RNG_BASE_SEED
         ^ (std::time::SystemTime::now()
             .duration_since(std::time::UNIX_EPOCH)
             .unwrap_or_default()
